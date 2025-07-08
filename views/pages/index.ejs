@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home - NYU Pi Delta Psi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/style.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <!-- Shared Header -->
+  <%- include('../partials/header') %>
+
+  <main>
+    <!-- Hero Banner -->
+    <section class="relative w-full h-full overflow-hidden">
+      <!-- Mobile -->
+      <img src="/images/mobile/bg.png" alt="Mobile Background" class="relative w-full h-full object-cover object-center block md:hidden absolute inset-0 z-0"/>
+
+      <!-- Desktop --> 
+      <img src="/images/desktop/bg.png" alt="Desktop Background" class="relative w-full h-full object-cover object-center hidden md:block absolute inset-0 z-0"/>
+
+      <div class="absolute left-1/2 -translate-x-1/2 top-12 md:top-36 z-10 w-[90%] ">
+        <h1 class="text-white text-4xl md:text-8xl font-bold text-center px-4"> NYU Pi Delta Psi </h1>
+      </div>
+
+      <div class="absolute left-1/2 -translate-x-1/2 bottom-12 md:bottom-36 z-10 w-[90%]">
+        <h1 class="text-white text-4xl md:text-8xl font-bold text-center px-4"> Zeta Chapter </h1>
+      </div>
+    </section>
+
+    <!-- PDPsi -->
+    <section class="relative w-full bg-black align-bottom">
+      <div class="text-center w-[80%] md:w-[60%] mx-auto ">
+        <h2 class="text-2xl md:text-4xl font-bold mb-3 text-white">Pi Delta Psi Fraternity, Incorporated</h2>
+        <p class="text-xs md:text-2xl text-gray-400">
+          Pi Delta Psi is the fastest growing Asian-American interest fraternity in the United States. 
+          Founded in the spring of 1997, the Zeta Chapter of Pi Delta Psi at New York University is home 
+          to 20+ active brothers from all backgrounds, joined by one brotherhood.
+        </p>
+      </div>
+    </section>
+
+    <!-- Logo -->
+    <section class="w-full bg-black">
+      <!-- Mobile -->
+      <img src="/images/mobile/pdpsi_logo.png" alt="Mobile Logo"
+          class="w-full object-contain object-center block md:hidden align-bottom" />
+
+      <!-- Desktop -->
+      <img src="/images/desktop/pdpsi_logo.png" alt="Desktop Logo"
+          class="w-full object-contain object-center hidden md:block align-bottom" />
+    </section>
+
+    <!-- Pillars -->
+    <!-- <section class="w-full bg-white text-black py-20 px-4">
+      <div class="w-full mx-auto text-center mb-12">
+        <h2 class="text-3xl md:text-5xl font-bold">Our Four Pillars</h2>
+      </div>
+
+      <div class="relative md:h-24 flex flex-col md:block items-center gap-4 md:gap-0">
+        <button class="pillar-btn w-72 bg-black text-white px-4 py-2 rounded-full font-semibold md:absolute md:left-[20%] md:-translate-x-1/2" data-pillar="academic">
+          Academic Achievement 
+        </button>
+
+        <button class="pillar-btn w-72 bg-black text-white px-4 py-2 rounded-full font-semibold md:absolute md:left-[40%] md:-translate-x-1/2" data-pillar="cultural">
+          Cultural Awaremess
+        </button>
+
+        <button class="pillar-btn w-72 bg-black text-white px-4 py-2 rounded-full font-semibold md:absolute md:left-[60%] md:-translate-x-1/2" data-pillar="righteousness">
+          Righteousness
+        </button>
+
+        <button class="pillar-btn w-72 bg-black text-white px-4 py-2 rounded-full font-semibold md:absolute md:left-[80%] md:-translate-x-1/2" data-pillar="friendship">
+          Friendship & Loyalty 
+        </button>
+      </div>
+
+      <div id="pillarContent" class="mt-10 md:mt-5 text-center text-gray-700 text-base md:text-lg max-w-3xl mx-auto">
+        <p>Select a pillar to learn more.</p>
+      </div>
+    </section> -->
+
+    <section class="w-full bg-white text-black py-10 px-4">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
+
+      <!-- Left Column: Image -->
+        <div class="w-full md:w-1/2 aspect-square overflow-hidden rounded-lg shadow-md">
+          <img src="/images/desktop/prez.jpg" alt="Chapter President" class="w-full rounded-lg shadow-md"/>
+        </div>
+
+        <!-- Right Column: Text -->
+        <div class="w-full md:w-1/2 md:ml-6">
+          <h2 class="text-2xl md:text-3xl font-bold mb-4">A LETTER FROM OUR CHAPTER PRESIDENT</h2>
+          <p class="text-gray-800 mb-4">
+            Welcome to the official website of NYU’s Pi Delta Psi Fraternity, Inc., Zeta Chapter. Pi Delta Psi was founded in 1994, and the Zeta Chapter at NYU was established in 1997 based on the pillars of academic achievement, cultural awareness, righteousness, and brotherhood.
+          </p>
+          <p class="text-gray-800 mb-4">
+            Being part of Pi Delta Psi has given me the opportunity to form lifelong bonds with incredible brothers — united through shared values and a commitment to growth. I’m proud to lead this chapter and continue building a community rooted in culture and character.
+          </p>
+          <p class="text-gray-800 mb-4">
+            If you'd like to learn more, feel free to reach out or explore the rest of our site. Our brotherhood welcomes all who share in our vision.
+          </p>
+          <p class="font-bold italic">
+            — Devon Shih, Chapter President
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="w-full bg-white text-black py-10 px-6 text-center">
+      <h2 class="text-2xl md:text-4xl font-bold mb-6">Interested in Joining?</h2>
+
+      <a href="/rush" class="inline-block bg-red-800 text-white text-lg md:text-2xl font-semibold px-10 py-4 rounded-full hover:bg-gray-200 transition duration-200 shadow-md">
+        Rush
+      </a>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script>
+    const buttons = document.querySelectorAll('.pillar-btn');
+    const content = document.getElementById('pillarContent');
+
+    const pillarText = {
+      academic: "We don’t just show up — we show out. At Pi Delta Psi, we hold ourselves and each other accountable to grind hard in the classroom. Whether it’s late-night study sessions or pushing for that GPA boost, we stay locked in and help our brothers level up, every semester.",
+      cultural: "We rep where we come from. Pi Delta Psi was built to uplift Asian-American identity, and we take pride in our roots. From hosting culture shows to speaking out on real issues, we keep it authentic, educate with purpose, and always put heritage front and center",
+      righteousness: "We do what’s right — no excuses. Being a brother means holding yourself to a higher standard and backing it up with your actions. We look out for our community, hold each other down, and make sure every decision reflects the values we stand on.",
+      friendship: "This isn’t just a group — it’s a bond for life. Through every rush, line, and late-night memory, we build something real. Loyalty means always showing up, always riding for your brothers, and knowing we’ve got each other’s backs no matter what."
+    };
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-pillar');
+        content.innerHTML = `<p>${pillarText[key]}</p>`;
+      });
+    });
+  </script>
+
+</body>
+</html>

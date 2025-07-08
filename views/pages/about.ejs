@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Us - NYU Pi Delta Psi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/style.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <!-- Shared Header -->
+  <%- include('../partials/header') %>
+
+  <!-- Main content -->
+  <main>
+    <!-- Banner Section -->
+    <section class="relative w-full h-[65vh] md:h-screen overflow-hidden">
+      <img src="/images/desktop/cross.png" class="absolute inset-0 w-full h-full object-cover object-center z-0"/>
+      <div class="absolute inset-0 flex items-center justify-center z-10 px-4 text-center">
+        <h1 class="text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
+          EXCELLENCE THROUGH BROTHERHOOD
+        </h1>
+      </div>
+    </section>
+
+    <!-- Executive Board 2025 Section -->
+    <section class="bg-white py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-center mb-12">Executive Board 2025</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          <!-- President -->
+          <div class="text-center space-y-3">
+            <img src="/images/bros/dev.jpg" alt="President" class="w-full aspect-square object-cover rounded-xl shadow-md">
+            <h3 class="text-lg font-bold">President</h3>
+            <p class="text-sm text-gray-800">Devon *VISIONARY* Shih</p>
+          </div>
+
+          <!-- Vice President -->
+          <div class="text-center space-y-3">
+            <img src="/images/bros/incompetent.png" alt="VPI" class="w-full aspect-square object-cover rounded-xl shadow-md">
+            <h3 class="text-lg font-bold">Vice President Internal</h3>
+            <p class="text-sm text-gray-800">Nico *Bellator* Salas</p>
+          </div>
+
+          <!-- Warden -->
+          <div class="text-center space-y-3">
+            <img src="/images/bros/leo.jpg" alt="VPE" class="w-full aspect-square object-cover rounded-xl shadow-md">
+            <h3 class="text-lg font-bold">Vice President External</h3>
+            <p class="text-sm text-gray-800">Leo *SAINT LAURENT* Han</p>
+          </div>
+
+          <!-- Treasurer -->
+          <div class="text-center space-y-3">
+            <img src="/images/bros/jiaming.jpg" alt="Treasurer" class="w-full aspect-square object-cover rounded-xl shadow-md">
+            <h3 class="text-lg font-bold">Treasurer</h3>
+            <p class="text-sm text-gray-800">Jiaming *SHINRAI* Pan </p>
+          </div>
+
+          <!-- Recorder -->
+          <div class="text-center space-y-3">
+            <img src="/images/bros/josh.jpg" alt="Secretary" class="w-full aspect-square object-cover rounded-xl shadow-md">
+            <h3 class="text-lg font-bold">Secretary</h3>
+            <p class="text-sm text-gray-800">Joshua *HUFFLEPUFF* Lee</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <%- include('../partials/footer') %>
+
+</body>
+</html>
