@@ -16,7 +16,7 @@ app.get('/alumni', (req, res) => res.render('pages/alumni'));
 app.get('/rush', (req, res) => res.render('pages/rush'));
 app.get('/contact', (req, res) => res.render('pages/contact'));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

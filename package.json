@@ -1,7 +1,7 @@
 {
   "name": "pdpsi.org",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build:css": "tailwindcss -i ./src/input.css -o ./public/style.css --watch"
   },
