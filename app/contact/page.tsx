@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
-      <Image src="/images/desktop/cross.png" alt="" fill className="object-cover object-center" />
+      <Image src="/images/desktop/cross.webp" alt="" fill className="object-cover object-center" />
       <div className="absolute inset-0 z-10 flex items-center justify-center px-4 text-center">
         <h1 className="text-4xl font-bold text-white drop-shadow-lg md:text-6xl">CONTACT US</h1>
       </div>

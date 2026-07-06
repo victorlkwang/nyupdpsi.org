@@ -13,7 +13,7 @@ export default function AlumniPage() {
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
         <Image
-          src="/images/desktop/alum_cover.jpg"
+          src="/images/desktop/alum_cover.webp"
           alt=""
           fill
           className="object-cover object-center"

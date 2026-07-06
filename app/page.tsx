@@ -6,14 +6,14 @@ export default function HomePage() {
     <>
       <section className="relative h-[70vh] w-full overflow-hidden md:h-screen">
         <Image
-          src="/images/mobile/bg.png"
+          src="/images/mobile/bg.webp"
           alt="NYU Pi Delta Psi"
           fill
           priority
           className="object-cover object-center md:hidden"
         />
         <Image
-          src="/images/desktop/bg.png"
+          src="/images/desktop/bg.webp"
           alt="NYU Pi Delta Psi"
           fill
           priority
@@ -49,14 +49,14 @@ export default function HomePage() {
 
       <section className="w-full bg-black py-8">
         <Image
-          src="/images/mobile/pdpsi_logo.png"
+          src="/images/mobile/pdpsi_logo.webp"
           alt="Pi Delta Psi Logo"
           width={800}
           height={400}
           className="mx-auto block h-auto w-full object-contain md:hidden"
         />
         <Image
-          src="/images/desktop/pdpsi_logo.png"
+          src="/images/desktop/pdpsi_logo.webp"
           alt="Pi Delta Psi Logo"
           width={1600}
           height={500}
@@ -68,7 +68,7 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 md:flex-row">
           <div className="aspect-square w-full overflow-hidden rounded-lg shadow-md md:w-1/2">
             <Image
-              src="/images/desktop/prez.jpg"
+              src="/images/desktop/prez.webp"
               alt="Chapter President"
               width={600}
               height={600}
