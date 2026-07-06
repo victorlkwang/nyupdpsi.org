@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { currentRush } from "@/data/rush";
+import { activeRushTerm } from "@/data/rush";
 
 const RushApplicationSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email address."),
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       data: {
         ...data,
         instagramHandle: instagramHandle || null,
-        term: currentRush.term,
+        term: activeRushTerm,
       },
     });
   } catch (error) {

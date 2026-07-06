@@ -27,32 +27,36 @@ export default function RushPage() {
 
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-6xl space-y-16">
-          <h2 className="text-center text-3xl font-extrabold tracking-tight text-black md:text-4xl">
-            {currentRush.term}
-          </h2>
+          {currentRush && (
+            <h2 className="text-center text-3xl font-extrabold tracking-tight text-black md:text-4xl">
+              {currentRush.term}
+            </h2>
+          )}
 
           <RushInterestForm />
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
-              <Image
-                src={currentRush.cover}
-                alt={`${currentRush.term} Cover`}
-                width={800}
-                height={800}
-                className="h-auto w-full object-contain"
-              />
+          {currentRush && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+                <Image
+                  src={currentRush.cover}
+                  alt={`${currentRush.term} Cover`}
+                  width={800}
+                  height={800}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
+              <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+                <Image
+                  src={currentRush.date}
+                  alt={`${currentRush.term} Date`}
+                  width={800}
+                  height={800}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
             </div>
-            <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
-              <Image
-                src={currentRush.date}
-                alt={`${currentRush.term} Date`}
-                width={800}
-                height={800}
-                className="h-auto w-full object-contain"
-              />
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
