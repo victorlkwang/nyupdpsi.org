@@ -21,12 +21,13 @@ export default function HomePage() {
           className="hidden object-cover object-center md:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
+        <div className="bg-grid-pattern absolute inset-0 opacity-30" />
 
         <div className="absolute inset-x-0 bottom-0 z-10 px-6 pb-16 md:pb-24">
           <p className="text-center text-sm font-bold tracking-[0.3em] text-brand md:text-base">
             EST. 1997 · ZETA CHAPTER
           </p>
-          <h1 className="mt-3 text-center text-6xl font-black uppercase leading-[0.95] tracking-tight text-white md:text-9xl">
+          <h1 className="mt-3 text-center text-6xl font-black uppercase leading-[0.95] tracking-tight text-white text-glow md:text-9xl">
             Pi Delta Psi
           </h1>
           <p className="mt-4 text-center text-lg font-medium uppercase tracking-[0.2em] text-gray-300 md:text-2xl">
@@ -113,9 +114,10 @@ export default function HomePage() {
 
       <section className="relative w-full overflow-hidden bg-ink px-6 py-24 text-center">
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black via-ink to-brand-dark/30" />
+        <div className="bg-grid-pattern absolute inset-0 -z-10 opacity-30" />
         <FadeIn>
           <p className="mb-4 text-sm font-bold tracking-[0.3em] text-brand">JOIN THE LEGACY</p>
-          <h2 className="mb-8 text-4xl font-black uppercase leading-tight tracking-tight text-white md:text-6xl">
+          <h2 className="mb-8 text-4xl font-black uppercase leading-tight tracking-tight text-white text-glow md:text-6xl">
             Interested in
             <br />
             Joining?
