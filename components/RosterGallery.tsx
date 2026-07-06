@@ -7,15 +7,15 @@ import type { RosterByClass, RosterMember } from "@/data/types";
 function Overlay({ member, visibilityClass }: { member: RosterMember; visibilityClass: string }) {
   return (
     <div
-      className={`absolute inset-0 flex items-center justify-center bg-black/80 px-4 transition-opacity duration-300 ${visibilityClass}`}
+      className={`absolute inset-0 flex items-center justify-center bg-black/75 px-4 transition-opacity duration-300 ${visibilityClass}`}
     >
       <div className="space-y-1 text-center text-sm text-white">
-        <p className="text-lg font-semibold text-brand">{member.number}</p>
-        <p className="text-lg font-semibold">{member.name}</p>
-        {member.major && <p>Major: {member.major}</p>}
-        {member.year && <p>Year: {member.year}</p>}
-        <p>Big: {member.big}</p>
-        <p>Little: {member.little}</p>
+        <p className="font-medium">{member.number}</p>
+        <p className="font-medium">{member.name}</p>
+        {member.major && <p className="text-gray-300">Major: {member.major}</p>}
+        {member.year && <p className="text-gray-300">Year: {member.year}</p>}
+        <p className="text-gray-300">Big: {member.big}</p>
+        <p className="text-gray-300">Little: {member.little}</p>
       </div>
     </div>
   );
@@ -23,13 +23,13 @@ function Overlay({ member, visibilityClass }: { member: RosterMember; visibility
 
 function DesktopCard({ member }: { member: RosterMember }) {
   return (
-    <div className="group relative h-80 overflow-hidden rounded-lg ring-1 ring-white/10 transition duration-300 hover:ring-brand/60 hover:shadow-lg hover:shadow-brand/20">
+    <div className="group relative h-80 overflow-hidden rounded-lg">
       <Image
         src={member.src}
         alt={member.name}
         fill
         sizes="25vw"
-        className="object-cover transition-transform duration-300 group-hover:scale-105"
+        className="object-cover grayscale transition duration-300 group-hover:grayscale-0"
       />
       <Overlay member={member} visibilityClass="opacity-0 group-hover:opacity-100" />
     </div>
@@ -39,10 +39,7 @@ function DesktopCard({ member }: { member: RosterMember }) {
 function MobileCard({ member }: { member: RosterMember }) {
   const [show, setShow] = useState(false);
   return (
-    <div
-      className="relative h-80 overflow-hidden rounded-lg ring-1 ring-white/10"
-      onClick={() => setShow((v) => !v)}
-    >
+    <div className="relative h-80 overflow-hidden rounded-lg" onClick={() => setShow((v) => !v)}>
       <Image src={member.src} alt={member.name} fill sizes="100vw" className="object-cover" />
       <Overlay member={member} visibilityClass={show ? "opacity-100" : "opacity-0"} />
     </div>
@@ -66,17 +63,17 @@ export default function RosterGallery({
   members.forEach((member, index) => columns[index % 4].push(member));
 
   return (
-    <section className="bg-grid-pattern w-full bg-black py-16">
+    <section className="w-full bg-white py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-10 flex flex-wrap justify-center gap-3">
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
           {classes.map((className) => (
             <button
               key={className}
               onClick={() => setActiveClass(className)}
-              className={`rounded-full px-4 py-2 text-sm font-bold uppercase tracking-wide shadow transition-all duration-200 ${
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
                 activeClass === className
-                  ? "bg-brand text-white shadow-brand/40"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20"
+                  ? "border-brand bg-brand text-white"
+                  : "border-gray-200 text-gray-600 hover:border-gray-400"
               }`}
             >
               {className}

@@ -11,20 +11,16 @@ export const metadata: Metadata = {
 export default function ActiveHousePage() {
   return (
     <>
-      <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
+      <section className="relative h-[55vh] w-full overflow-hidden md:h-[70vh]">
         <Image
           src="/images/desktop/banquet.jpg"
           alt=""
           fill
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
-        <div className="bg-grid-pattern absolute inset-0 opacity-30" />
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-end px-4 pb-16 text-center md:pb-24">
-          <p className="mb-3 text-sm font-bold tracking-[0.3em] text-brand">
-            20+ ACTIVE BROTHERS
-          </p>
-          <h1 className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white text-glow md:text-7xl">
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 text-center">
+          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
             Brotherhood in Action
           </h1>
         </div>

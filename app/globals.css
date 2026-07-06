@@ -1,22 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #dc2626;
-  --color-brand-dark: #991b1b;
-  --color-ink: #0a0a0a;
-}
-
-@utility bg-grid-pattern {
-  background-image:
-    linear-gradient(to right, rgba(220, 38, 38, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(220, 38, 38, 0.15) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-
-@utility text-glow {
-  text-shadow:
-    0 0 20px rgba(220, 38, 38, 0.7),
-    0 0 45px rgba(220, 38, 38, 0.35);
+  --color-brand: #b91c1c;
 }
 
 body {
