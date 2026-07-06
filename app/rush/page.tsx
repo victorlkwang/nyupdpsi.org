@@ -66,22 +66,22 @@ export default function RushPage() {
                 {term.term}
               </h3>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="group relative aspect-square overflow-hidden rounded-3xl shadow-xl">
+                <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
                   <Image
                     src={term.cover}
                     alt={`${term.term} Cover`}
-                    fill
-                    sizes="50vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    width={800}
+                    height={800}
+                    className="h-auto w-full object-contain"
                   />
                 </div>
-                <div className="group relative aspect-square overflow-hidden rounded-3xl shadow-xl">
+                <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
                   <Image
                     src={term.date}
                     alt={`${term.term} Date`}
-                    fill
-                    sizes="50vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    width={800}
+                    height={800}
+                    className="h-auto w-full object-contain"
                   />
                 </div>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { rushContacts } from "@/data/rushContacts";
 
 const YEARS = ["Freshman", "Sophomore", "Junior", "Senior"] as const;
 const YEAR_VALUES: Record<(typeof YEARS)[number], string> = {
@@ -20,14 +21,6 @@ const SCHOOL_VALUES: Record<(typeof SCHOOLS)[number], string> = {
   Tisch: "TISCH",
   Other: "OTHER",
 };
-
-const CONTACTS = [
-  { name: "Joshua Lee", phone: "(408) 966-2782" },
-  { name: "Cody Le", phone: "(214) 282-6906" },
-  { name: "Caden Cewe", phone: "(954) 909-2741" },
-  { name: "William Song", phone: "(323) 247-1004" },
-  { name: "Kason Lin", phone: "(678) 749-9500" },
-];
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-black focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600";
@@ -113,7 +106,7 @@ export default function RushInterestForm() {
       <div className="mt-8">
         <h4 className="text-xs font-bold uppercase tracking-widest text-red-600">Contact Info</h4>
         <ul className="mt-2 grid grid-cols-1 gap-x-6 gap-y-1 text-sm text-gray-700 sm:grid-cols-2">
-          {CONTACTS.map((contact) => (
+          {rushContacts.map((contact) => (
             <li key={contact.name}>
               <span className="font-semibold text-black">{contact.name}:</span> {contact.phone}
             </li>
@@ -122,21 +115,23 @@ export default function RushInterestForm() {
       </div>
 
       <p className="mt-8 text-sm text-gray-700">
-        Thank you again for your interest and feel free to check out our other pages!{" "}
+        Thank you again for your interest and feel free to check out our other pages!
+      </p>
+      <p className="mt-2 text-sm text-gray-700">
+        Instagram:{" "}
         <a
           href="https://www.instagram.com/nyupdpsi"
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-red-600 hover:underline"
         >
-          Instagram
-        </a>{" "}
-        &middot;{" "}
-        <a
-          href="https://nyupdpsi.org"
-          className="font-semibold text-red-600 hover:underline"
-        >
-          Website
+          @nyupdpsi
+        </a>
+      </p>
+      <p className="text-sm text-gray-700">
+        Website:{" "}
+        <a href="https://nyupdpsi.org" className="font-semibold text-red-600 hover:underline">
+          nyupdpsi.org
         </a>
       </p>
 
