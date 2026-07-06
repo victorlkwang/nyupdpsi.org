@@ -18,9 +18,14 @@ export default function AlumniPage() {
           fill
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 text-center">
-          <h1 className="text-4xl font-bold text-white drop-shadow-lg md:text-6xl">
-            LEGACY LIVES ON
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
+        <div className="bg-grid-pattern absolute inset-0 opacity-30" />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-end px-4 pb-16 text-center md:pb-24">
+          <p className="mb-3 text-sm font-bold tracking-[0.3em] text-brand">
+            50+ ALUMNI · SINCE 1997
+          </p>
+          <h1 className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white text-glow md:text-7xl">
+            Legacy Lives On
           </h1>
         </div>
       </section>

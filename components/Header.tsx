@@ -10,9 +10,10 @@ const NAV_LINKS = [
   { href: "/active-house", label: "ACTIVE HOUSE" },
   { href: "/alumni", label: "ALUMNI" },
   { href: "/rush", label: "RUSH" },
+  { href: "/contact", label: "CONTACT" },
 ];
 
-const navLinkClass = "font-bold text-white transition-colors hover:text-red-500";
+const navLinkClass = "font-bold text-white transition-colors hover:text-brand";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);

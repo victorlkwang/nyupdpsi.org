@@ -1,8 +1,4 @@
-const SOCIAL_LINKS = [
-  { href: "https://www.instagram.com/nyupdpsi", label: "Instagram" },
-  { href: "https://www.facebook.com/nyupideltapsi/", label: "Facebook" },
-  { href: "https://www.pideltapsi.com/", label: "National" },
-];
+import { socialLinks } from "@/data/social";
 
 export default function Footer() {
   return (
@@ -12,13 +8,13 @@ export default function Footer() {
           © {new Date().getFullYear()} Pi Delta Psi – Zeta Chapter @ NYU. All rights reserved.
         </div>
         <div className="flex gap-6 text-lg">
-          {SOCIAL_LINKS.map((link) => (
+          {socialLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold transition duration-200 hover:text-red-500"
+              className="font-bold transition duration-200 hover:text-brand"
             >
               {link.label}
             </a>
