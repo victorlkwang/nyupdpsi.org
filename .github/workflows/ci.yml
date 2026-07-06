@@ -12,6 +12,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Dummy value: only needed for `prisma generate` to resolve the env
+      # var reference in prisma.config.ts. No database connection is made
+      # during install, lint, typecheck, or build.
+      DATABASE_URL: "postgresql://user:password@localhost:5432/pdpsi?schema=public"
     steps:
       - name: Checkout
         uses: actions/checkout@v4

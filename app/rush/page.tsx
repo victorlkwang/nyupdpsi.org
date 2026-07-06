@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import RushInterestForm from "@/components/RushInterestForm";
 import { currentRush, rushArchive } from "@/data/rush";
 
 export const metadata: Metadata = {
@@ -25,41 +26,37 @@ export default function RushPage() {
       </section>
 
       <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-6xl space-y-10">
-          <div className="flex flex-col items-center gap-4 text-center md:flex-row md:items-center md:justify-start md:gap-6 md:text-left">
-            <h2 className="text-3xl font-extrabold tracking-tight text-black md:text-4xl">
+        <div className="mx-auto max-w-6xl space-y-16">
+          {currentRush && (
+            <h2 className="text-center text-3xl font-extrabold tracking-tight text-black md:text-4xl">
               {currentRush.term}
             </h2>
-            <a
-              href={currentRush.formUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-full bg-black px-6 py-3 text-sm font-bold text-white transition duration-300 hover:bg-red-600 md:text-base"
-            >
-              Rush Interest Form
-            </a>
-          </div>
+          )}
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
-              <Image
-                src={currentRush.cover}
-                alt={`${currentRush.term} Cover`}
-                width={800}
-                height={800}
-                className="h-auto w-full object-contain"
-              />
+          <RushInterestForm />
+
+          {currentRush && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+                <Image
+                  src={currentRush.cover}
+                  alt={`${currentRush.term} Cover`}
+                  width={800}
+                  height={800}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
+              <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+                <Image
+                  src={currentRush.date}
+                  alt={`${currentRush.term} Date`}
+                  width={800}
+                  height={800}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
             </div>
-            <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
-              <Image
-                src={currentRush.date}
-                alt={`${currentRush.term} Date`}
-                width={800}
-                height={800}
-                className="h-auto w-full object-contain"
-              />
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -73,22 +70,22 @@ export default function RushPage() {
                 {term.term}
               </h3>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="group relative aspect-square overflow-hidden rounded-3xl shadow-xl">
+                <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
                   <Image
                     src={term.cover}
                     alt={`${term.term} Cover`}
-                    fill
-                    sizes="50vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    width={800}
+                    height={800}
+                    className="h-auto w-full object-contain"
                   />
                 </div>
-                <div className="group relative aspect-square overflow-hidden rounded-3xl shadow-xl">
+                <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
                   <Image
                     src={term.date}
                     alt={`${term.term} Date`}
-                    fill
-                    sizes="50vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    width={800}
+                    height={800}
+                    className="h-auto w-full object-contain"
                   />
                 </div>
               </div>
