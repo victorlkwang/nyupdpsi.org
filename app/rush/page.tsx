@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import RushInterestForm from "@/components/RushInterestForm";
 import { currentRush, rushArchive } from "@/data/rush";
 
 export const metadata: Metadata = {
@@ -25,20 +26,12 @@ export default function RushPage() {
       </section>
 
       <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-6xl space-y-10">
-          <div className="flex flex-col items-center gap-4 text-center md:flex-row md:items-center md:justify-start md:gap-6 md:text-left">
-            <h2 className="text-3xl font-extrabold tracking-tight text-black md:text-4xl">
-              {currentRush.term}
-            </h2>
-            <a
-              href={currentRush.formUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-full bg-black px-6 py-3 text-sm font-bold text-white transition duration-300 hover:bg-red-600 md:text-base"
-            >
-              Rush Interest Form
-            </a>
-          </div>
+        <div className="mx-auto max-w-6xl space-y-16">
+          <h2 className="text-center text-3xl font-extrabold tracking-tight text-black md:text-4xl">
+            {currentRush.term}
+          </h2>
+
+          <RushInterestForm />
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="overflow-hidden rounded-3xl bg-white shadow-xl">

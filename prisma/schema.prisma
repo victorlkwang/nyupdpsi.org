@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Year {
+  FRESHMAN
+  SOPHOMORE
+  JUNIOR
+  SENIOR
+}
+
+enum School {
+  STERN
+  STEINHARDT
+  CAS
+  GALLATIN
+  TANDON
+  TISCH
+  OTHER
+}
+
+model RushApplication {
+  id              String   @id @default(cuid())
+  term            String
+  email           String
+  fullName        String
+  nyuEmail        String
+  phoneNumber     String
+  year            Year
+  school          School
+  instagramHandle String?
+  createdAt       DateTime @default(now())
+
+  // One submission per rushee per rush cycle; re-applying next term is fine.
+  @@unique([nyuEmail, term])
+}

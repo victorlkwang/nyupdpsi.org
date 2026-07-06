@@ -4,8 +4,6 @@ export const currentRush = {
   term: "Spring 2026",
   cover: "/images/rush/sp26_cover.webp",
   date: "/images/rush/sp26_date.webp",
-  formUrl:
-    "https://docs.google.com/forms/d/e/1FAIpQLSc7kNSmBV5XfXbva116Y5ry-C3JcLrj1SiTUaCSPC6ZSAPPFA/viewform",
 };
 
 export const rushArchive: RushTerm[] = [
