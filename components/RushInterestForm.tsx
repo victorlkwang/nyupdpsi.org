@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { rushContacts } from "@/data/rushContacts";
+import {
+  rushAboutUs,
+  rushClassName,
+  rushClosing,
+  rushContacts,
+  rushDisclaimer,
+  rushFormTitle,
+  rushIntro,
+  rushSocials,
+} from "@/data/rushApp";
 
 const YEARS = ["Freshman", "Sophomore", "Junior", "Senior"] as const;
 const YEAR_VALUES: Record<(typeof YEARS)[number], string> = {
@@ -78,29 +87,18 @@ export default function RushInterestForm() {
   return (
     <div className="mx-auto max-w-2xl rounded-3xl border border-gray-200 bg-white p-6 shadow-xl md:p-10">
       <h3 className="text-center text-2xl font-extrabold text-black md:text-3xl">
-        NYU Pi Delta Psi Rush Interest Form
+        {rushFormTitle}
       </h3>
 
-      <p className="mt-4 text-sm leading-relaxed text-gray-700">
-        Thank you for showing an interest in NYU Pi Delta Psi. All of our brothers are excited to
-        meet you in person this fall during our rush for the Beta Lambda class. Please fill out
-        this form to stay updated with all of our ongoing rush events. If you want to talk to a
-        brother one on one, please go ahead and fill out the coffee chat form as well and a
-        brother will get in touch with you as soon as possible.
-      </p>
+      <p className="mt-4 text-sm leading-relaxed text-gray-700">{rushIntro}</p>
 
       <p className="mt-4 text-center text-sm font-semibold italic text-red-700">
-        All rush events along with this interest form are free and non-binding.
+        {rushDisclaimer}
       </p>
 
       <div className="mt-8">
         <h4 className="text-xs font-bold uppercase tracking-widest text-red-600">About Us</h4>
-        <p className="mt-2 text-sm leading-relaxed text-gray-700">
-          Pi Delta Psi is an Asian American interest fraternity (but not an Asian exclusive
-          cultural org). Our primary mission is to spread Asian American cultural awareness in an
-          effort to empower the entire community. We are guided by four pillars: Academic
-          Achievement, Cultural Awareness, Righteousness, and Friendship/Loyalty.
-        </p>
+        <p className="mt-2 text-sm leading-relaxed text-gray-700">{rushAboutUs}</p>
       </div>
 
       <div className="mt-8">
@@ -114,24 +112,22 @@ export default function RushInterestForm() {
         </ul>
       </div>
 
-      <p className="mt-8 text-sm text-gray-700">
-        Thank you again for your interest and feel free to check out our other pages!
-      </p>
+      <p className="mt-8 text-sm text-gray-700">{rushClosing}</p>
       <p className="mt-2 text-sm text-gray-700">
         Instagram:{" "}
         <a
-          href="https://www.instagram.com/nyupdpsi"
+          href={rushSocials.instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-red-600 hover:underline"
         >
-          @nyupdpsi
+          {rushSocials.instagramHandle}
         </a>
       </p>
       <p className="text-sm text-gray-700">
         Website:{" "}
-        <a href="https://nyupdpsi.org" className="font-semibold text-red-600 hover:underline">
-          nyupdpsi.org
+        <a href={rushSocials.websiteUrl} className="font-semibold text-red-600 hover:underline">
+          {rushSocials.websiteLabel}
         </a>
       </p>
 
@@ -141,7 +137,7 @@ export default function RushInterestForm() {
         <div className="rounded-lg bg-black px-6 py-8 text-center text-white">
           <p className="text-lg font-bold">You&rsquo;re on the list!</p>
           <p className="mt-2 text-sm text-gray-300">
-            We&rsquo;ll be in touch with rush updates for the Beta Lambda class.
+            We&rsquo;ll be in touch with rush updates for the {rushClassName} class.
           </p>
         </div>
       ) : (
