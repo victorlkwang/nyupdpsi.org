@@ -1,11 +1,191 @@
 import type { RosterByClass } from "./types";
 
-// Note: the old EJS site had "Alpha Tau" through "Alpha Chi" classes commented
-// out of the alumni page (not deleted, just hidden). That was a content
-// decision made before this migration, not a bug, so it's preserved here by
-// omission rather than silently re-adding ~40 people to the public site.
-// Ask the chapter if those classes should be brought back before adding them.
+// "Alpha Tau" through "Alpha Chi" have no individual photos on file, so they
+// all point at the placeholder image for now.
 export const alumni: RosterByClass = {
+  "Alpha Tau": [
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#191",
+      name: "Frank *GEODUDE* Huang",
+      big: "Matthew *Ad nauseum* Song",
+      little: "Joshua *THEON* Kim",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#192",
+      name: "David *NEBULA* Lee",
+      big: "Tim *TIKI-TAKA* Deng",
+      little: "Joon *Uppercut* Kim",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#193",
+      name: "Ian *PUFF DADDY* Chiang",
+      big: "Jimmy *HUSKAR THE SUPREME ANNIHILATOR* Hwang",
+      little: "Samson *CREAMPUFF* Chen",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#194",
+      name: "William *OREO* Suh",
+      big: "Andrew *EXODIA THE FORBIDDEN ONE* Kang",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#196",
+      name: "Jordan *DEVGRU* Yang",
+      big: "Jeffrey *HIDAN* Zhu",
+      little: "James *Quarterback* Peng",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#197",
+      name: "Tony *APOCALYPSE* Tang",
+      big: "Tim *TIKI-TAKA* Deng",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#198",
+      name: "Jeremy *PICK N ROLL* Zhou",
+      big: "Nelsens *DRAX* Yansah",
+      little: "Nitin *Castling* Sagi, Noah *Longclaw* Kim",
+    },
+  ],
+  "Alpha Upsilon": [
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#199",
+      name: "Prescott *FANFARE* Ho-Kafry",
+      big: "Michael *PICKLES* Ding",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#200",
+      name: "Kevin *FERVOR* Sun",
+      big: "Michael *PICKLES* Ding",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#201",
+      name: "Ray *Carraway* Teo",
+      big: "Sean *Skylark* Kim",
+      little: "Christopher *DEKU* Li",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#202",
+      name: "Michael *Sigurd* Zhou",
+      big: "Tommy *Copperfield* Lin",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#203",
+      name: "Evan *UWU* LaBanca",
+      big: "Carlin *Baby Powder* Jacala",
+      little: "N/A",
+    },
+  ],
+  "Alpha Phi": [
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#204",
+      name: "Alan *INSPIRE!* Chu",
+      big: "Zhong *GLITTER* Zhu",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#205",
+      name: "Stephen *BURBERRY* Ye",
+      big: "Sean *BALENCIAGA* Choi",
+      little: "Victor *CHROMEHEARTS* Teng, Will *ALLSAINTS* Kang",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#206",
+      name: "Samson *CREAMPUFF* Chen",
+      big: "Ian *PUFF DADDY* Chiang",
+      little: "Roland *PUFF THE MAGIC DRAGON* Yan, Jeffrey *JIGGLYPUFF* Yeung",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#207",
+      name: "James *ENTEI* Lin",
+      big: "Ray *BASTION* Park",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#208",
+      name: "James *Quarterback* Peng",
+      big: "Jordan *DEVGRU* Yang",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#209",
+      name: "AJ *KIMCHI* Hwang",
+      big: "Nicky *MORTY* Huang",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#210",
+      name: "Songchen *MORE SPARKLES!* Jiang",
+      big: "Zhong *GLITTER* Zhu",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#211",
+      name: "Daniel *LT. DAN* Huang",
+      big: "Eu Jie *MR. WEST* Kuan",
+      little: "Jerry *OUROBOROS* Hao",
+    },
+  ],
+  "Alpha Chi": [
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#212",
+      name: "Derek *CARTE BLANCHE* Han",
+      big: "Kevin *GUARDIAN* Cui",
+      little: "Richard *Dux Bellorum* Fan",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#213",
+      name: "Chris *TANJIRO* Chan",
+      big: "Matthew *Byun* Zoro",
+      little: "Joshua *KUZURI* Kim",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#214",
+      name: "Christopher *DEKU* Li",
+      big: "Ray *Carraway* Teo",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#215",
+      name: "Joshua *THEON* Kim",
+      big: "Frank *Huang* GEODUDE",
+      little: "N/A",
+    },
+    {
+      src: "/images/alums/incompetent.png",
+      number: "#216",
+      name: "Jason *WUF WUF* Bae",
+      big: "Brandon Isaac *Emergent* Setiawan",
+      little: "N/A",
+    },
+  ],
   "Beta Alpha": [
     {
       src: "/images/alums/incompetent.png",
@@ -195,7 +375,7 @@ export const alumni: RosterByClass = {
       little: "Calvin *GLACUS* Kim",
     },
     {
-      src: "/images/bros/king.JPEG",
+      src: "/images/bros/king.jpg",
       number: "#246",
       name: "Kingfey *LORO PIANA* Wang",
       big: "Bowen *MARGIELA* Liu",
