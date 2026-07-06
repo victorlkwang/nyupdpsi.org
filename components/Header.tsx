@@ -22,7 +22,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2">
         <Link href="/" className="block h-[80px] w-[140px] md:w-[180px]">
           <Image
-            src="/images/desktop/pdpsi.png"
+            src="/images/desktop/pdpsi.webp"
             alt="NYU Pi Delta Psi Logo"
             width={180}
             height={80}

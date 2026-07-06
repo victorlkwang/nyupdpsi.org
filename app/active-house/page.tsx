@@ -13,7 +13,7 @@ export default function ActiveHousePage() {
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
         <Image
-          src="/images/desktop/banquet.jpg"
+          src="/images/desktop/banquet.webp"
           alt=""
           fill
           className="object-cover object-center"

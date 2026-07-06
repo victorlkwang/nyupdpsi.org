@@ -12,7 +12,7 @@ export default function RushPage() {
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
         <Image
-          src="/images/desktop/beta-etas.png"
+          src="/images/desktop/beta-etas.webp"
           alt=""
           fill
           className="object-cover object-center"

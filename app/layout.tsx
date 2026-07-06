@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "NYU PDPSI",
     url: "https://nyupdpsi.org",
     type: "website",
-    images: ["/images/desktop/cross.png"],
+    images: ["/images/desktop/cross.webp"],
   },
 };
 

@@ -12,7 +12,7 @@ export default function AboutPage() {
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
         <Image
-          src="/images/desktop/cross.png"
+          src="/images/desktop/cross.webp"
           alt=""
           fill
           className="object-cover object-center"

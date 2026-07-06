@@ -32,18 +32,16 @@ async function optimize(filePath) {
     pipeline = pipeline.resize({ width: maxWidth });
   }
 
-  let buffer;
-  if (ext === '.jpg' || ext === '.jpeg') {
-    buffer = await pipeline.jpeg({ quality: 78, mozjpeg: true }).toBuffer();
-  } else {
-    buffer = await pipeline.png({ quality: 80, compressionLevel: 9, palette: true }).toBuffer();
-  }
+  // WebP beats both JPEG and PNG at equivalent quality for photos, and still
+  // supports alpha for logos/graphics, so every raster asset converts to it.
+  const buffer = await pipeline.webp({ quality: 80 }).toBuffer();
+  const outPath = filePath.slice(0, -ext.length) + '.webp';
+
+  fs.writeFileSync(outPath, buffer);
+  if (outPath !== filePath) fs.unlinkSync(filePath);
 
   const after = buffer.length;
-  if (after < before) {
-    fs.writeFileSync(filePath, buffer);
-  }
-  return { filePath, before, after };
+  return { filePath: outPath, before, after };
 }
 
 function walk(dir) {

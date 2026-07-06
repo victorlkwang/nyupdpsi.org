@@ -3,7 +3,7 @@ import type { RosterByClass } from "./types";
 export const activeHouse: RosterByClass = {
   "Beta Zeta": [
     {
-      src: "/images/bros/daniel.png",
+      src: "/images/bros/daniel.webp",
       number: "#240",
       name: "Daniel *GENTLE MONSTER* Sun",
       major: "Education Studies",
@@ -14,7 +14,7 @@ export const activeHouse: RosterByClass = {
   ],
   "Beta Eta": [
     {
-      src: "/images/bros/nico.jpg",
+      src: "/images/bros/nico.webp",
       number: "#242",
       name: "Nico *Bellator* Salas",
       major: "Liberal Studies",
@@ -23,7 +23,7 @@ export const activeHouse: RosterByClass = {
       little: "Ryan *Remus* Cao",
     },
     {
-      src: "/images/bros/victor.jpg",
+      src: "/images/bros/victor.webp",
       number: "#244",
       name: "Victor *BEPO* Wang",
       major: "Computer Science",
@@ -34,7 +34,7 @@ export const activeHouse: RosterByClass = {
   ],
   "Beta Theta": [
     {
-      src: "/images/bros/brandon.jpg",
+      src: "/images/bros/brandon.webp",
       number: "#247",
       name: "Brandon *SHINRAI* Tang",
       major: "Economics",
@@ -43,7 +43,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/josh.jpg",
+      src: "/images/bros/josh.webp",
       number: "#248",
       name: "Joshua *HUFFLEPUFF* Lee",
       major: "Business Technology Management",
@@ -52,7 +52,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/kevin.jpg",
+      src: "/images/bros/kevin.webp",
       number: "#249",
       name: "Kevin *PARAGON* Huang",
       major: "Nursing",
@@ -61,7 +61,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/jiaming.jpg",
+      src: "/images/bros/jiaming.webp",
       number: "#250",
       name: "Jiaming *EUNOIA* Pan",
       major: "Mathematics",
@@ -72,7 +72,7 @@ export const activeHouse: RosterByClass = {
   ],
   "Beta Kappa": [
     {
-      src: "/images/bros/caden.png",
+      src: "/images/bros/caden.webp",
       number: "#251",
       name: "Caden *PRADA* Cewe",
       major: "",
@@ -81,7 +81,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/dante.png",
+      src: "/images/bros/dante.webp",
       number: "#252",
       name: "Dante *BANDIT* Ma",
       major: "",
@@ -90,7 +90,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/kason.jpg",
+      src: "/images/bros/kason.webp",
       number: "#253",
       name: "Kason *MSCHF* Lin",
       major: "",
@@ -99,7 +99,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/suho.jpg",
+      src: "/images/bros/suho.webp",
       number: "#254",
       name: "William *Daytona* Song",
       major: "",
@@ -108,7 +108,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/cody.png",
+      src: "/images/bros/cody.webp",
       number: "#255",
       name: "Cody *ISSEY MIYAKE* Le",
       major: "",
@@ -117,7 +117,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/alu.png",
+      src: "/images/bros/alu.webp",
       number: "#256",
       name: "Aaron *ATREIDES* Lu",
       major: "",
@@ -126,7 +126,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/nathan.jpg",
+      src: "/images/bros/nathan.webp",
       number: "#258",
       name: "Nathan *KIRIN* Zhu",
       major: "",
@@ -135,7 +135,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/harry.jpg",
+      src: "/images/bros/harry.webp",
       number: "#259",
       name: "Harry *Seiko* Chen",
       major: "",
@@ -146,7 +146,7 @@ export const activeHouse: RosterByClass = {
   ],
   "Beta Lambda": [
     {
-      src: "/images/bros/buck.png",
+      src: "/images/bros/buck.webp",
       number: "#260",
       name: "Buck *PA*ZU* Vongnaraj",
       major: "Pre-law, Philospohy",
@@ -155,7 +155,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/ryan.jpg",
+      src: "/images/bros/ryan.webp",
       number: "#261",
       name: "Ryan *Remus* Cao",
       major: "Economics",
@@ -164,7 +164,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/calvin.jpg",
+      src: "/images/bros/calvin.webp",
       number: "#262",
       name: "Calvin *GLACUS* KIM",
       major: "Psychology",
@@ -173,7 +173,7 @@ export const activeHouse: RosterByClass = {
       little: "N/A",
     },
     {
-      src: "/images/bros/matt.jpg",
+      src: "/images/bros/matt.webp",
       number: "#263",
       name: "Matthew *MIU MIU* King",
       major: "Real Estate",
