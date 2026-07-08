@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { requireRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AdminUserTable, { type AdminUserRow } from "@/components/AdminUserTable";
+import BackToAccount from "@/components/BackToAccount";
 
 export const metadata: Metadata = { title: "Manage Members" };
 
@@ -21,6 +22,7 @@ export default async function AdminPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-12">
+      <BackToAccount />
       <h1 className="text-2xl font-extrabold text-black">Manage Members &amp; Roles</h1>
       <p className="mt-1 mb-6 text-sm text-gray-600">
         Promote members to <strong>BRO</strong> so they can view rush applications. Admins can view

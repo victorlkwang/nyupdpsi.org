@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { requireRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import BackToAccount from "@/components/BackToAccount";
 
 export const metadata: Metadata = { title: "Rush Applications" };
 
@@ -20,6 +21,7 @@ export default async function ApplicationsPage() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
+      <BackToAccount />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-black">Rush Applications</h1>
