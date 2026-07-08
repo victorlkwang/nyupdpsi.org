@@ -5,19 +5,15 @@ export default function HomePage() {
   return (
     <>
       <section className="relative h-[70vh] w-full overflow-hidden md:h-screen">
-        <Image
-          src="/images/mobile/bg.webp"
-          alt="NYU Pi Delta Psi"
-          fill
-          priority
-          className="object-cover object-center md:hidden"
-        />
+        {/* Single responsive background: object-cover fluidly fills any screen
+            size and keeps the crest centered, so no separate mobile crop needed. */}
         <Image
           src="/images/desktop/bg.webp"
           alt="NYU Pi Delta Psi"
           fill
           priority
-          className="hidden object-cover object-center md:block"
+          sizes="100vw"
+          className="object-cover object-center"
         />
 
         <div className="absolute left-1/2 top-12 z-10 w-[90%] -translate-x-1/2 md:top-36">
@@ -48,20 +44,18 @@ export default function HomePage() {
       </section>
 
       <section className="w-full bg-black py-8">
-        <Image
-          src="/images/mobile/pdpsi_logo.webp"
-          alt="Pi Delta Psi Logo"
-          width={800}
-          height={400}
-          className="mx-auto block h-auto w-full object-contain md:hidden"
-        />
-        <Image
-          src="/images/desktop/pdpsi_logo.webp"
-          alt="Pi Delta Psi Logo"
-          width={1600}
-          height={500}
-          className="mx-auto hidden h-auto w-full object-contain md:block"
-        />
+        {/* Single responsive logo band: object-cover in a fluid-height box keeps
+            the crest prominent on phones and shows more of the artwork on wide
+            screens. The image's black background blends with the section. */}
+        <div className="relative mx-auto h-56 w-full max-w-6xl sm:h-64 md:h-72 lg:h-80">
+          <Image
+            src="/images/desktop/pdpsi_logo.webp"
+            alt="Pi Delta Psi Logo"
+            fill
+            sizes="(min-width: 1152px) 1152px, 100vw"
+            className="object-cover object-center"
+          />
+        </div>
       </section>
 
       <section className="w-full bg-white px-4 py-10 text-black">
