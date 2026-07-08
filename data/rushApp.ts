@@ -1,10 +1,10 @@
 // All copy + contacts shown on the rush interest form. Update this file each
 // rush cycle instead of touching the form component.
 
-export const rushFormTitle = "NYU Pi Delta Psi Rush Interest Form";
+export const rushFormTitle = "Fall 2026 Rush Interest Form";
 
 // The pledge class current rushees are joining.
-export const rushClassName = "Beta Lambda";
+export const rushClassName = "Beta Mu";
 
 export const rushIntro = `Thank you for showing an interest in NYU Pi Delta Psi. All of our brothers are excited to meet you in person this fall during our rush for the ${rushClassName} class. Please fill out this form to stay updated with all of our ongoing rush events. If you want to talk to a brother one on one, please go ahead and fill out the coffee chat form as well and a brother will get in touch with you as soon as possible.`;
 
