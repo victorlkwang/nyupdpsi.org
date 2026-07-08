@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -20,11 +21,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const user = await getCurrentUser();
+
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col bg-gray-100 text-gray-900 antialiased">
-        <Header />
+        <Header user={user ? { role: user.role } : null} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
