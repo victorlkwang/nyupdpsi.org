@@ -16,6 +16,17 @@ function Overlay({ member, visibilityClass }: { member: RosterMember; visibility
         {member.year && <p>Year: {member.year}</p>}
         <p>Big: {member.big}</p>
         <p>Little: {member.little}</p>
+        {member.instagram && (
+          <a
+            href={`https://instagram.com/${member.instagram}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-block pt-1 text-red-300 underline hover:text-red-200"
+          >
+            @{member.instagram}
+          </a>
+        )}
       </div>
     </div>
   );
@@ -59,7 +70,8 @@ export default function RosterGallery({
   emptyMessage?: string;
 }) {
   const classes = Object.keys(data);
-  const [activeClass, setActiveClass] = useState(defaultClass);
+  const initialClass = classes.includes(defaultClass) ? defaultClass : (classes[0] ?? "");
+  const [activeClass, setActiveClass] = useState(initialClass);
   const members = data[activeClass] ?? [];
 
   const columns: RosterMember[][] = [[], [], [], []];

@@ -4,6 +4,7 @@ export interface RosterMember {
   name: string;
   major?: string;
   year?: string;
+  instagram?: string;
   big: string;
   little: string;
 }

@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import RosterGallery from "@/components/RosterGallery";
-import { alumni } from "@/data/alumni";
+import { getRosterByStatus } from "@/lib/roster";
 
 export const metadata: Metadata = {
   title: "Alumni",
   description: "Meet the alumni of the Zeta Chapter of Pi Delta Psi at NYU.",
 };
 
-export default function AlumniPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AlumniPage() {
+  const alumni = await getRosterByStatus("ALUMNI");
+  const classNames = Object.keys(alumni);
+  // Default to the most recent alumni class (most relevant to visitors).
+  const defaultClass = classNames[classNames.length - 1] ?? "";
   return (
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
@@ -25,7 +31,7 @@ export default function AlumniPage() {
         </div>
       </section>
 
-      <RosterGallery data={alumni} defaultClass="Beta Eta" emptyMessage="No alumni listed yet." />
+      <RosterGallery data={alumni} defaultClass={defaultClass} emptyMessage="No alumni listed yet." />
     </>
   );
 }

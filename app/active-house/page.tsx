@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import RosterGallery from "@/components/RosterGallery";
-import { activeHouse } from "@/data/activeHouse";
+import { getRosterByStatus } from "@/lib/roster";
 
 export const metadata: Metadata = {
   title: "Active House",
   description: "Meet the active brothers of the Zeta Chapter of Pi Delta Psi at NYU.",
 };
 
-export default function ActiveHousePage() {
+export const dynamic = "force-dynamic";
+
+export default async function ActiveHousePage() {
+  const activeHouse = await getRosterByStatus("ACTIVE");
   return (
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { requireRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AdminUserTable, { type AdminUserRow } from "@/components/AdminUserTable";
@@ -28,6 +29,12 @@ export default async function AdminPage() {
         Promote members to <strong>BRO</strong> so they can view rush applications. Admins can view
         everything and manage roles. You can&rsquo;t change your own role.
       </p>
+      <Link
+        href="/admin/roster"
+        className="mb-6 block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
+      >
+        Manage roster (brothers, classes &amp; photos) &rarr;
+      </Link>
       <AdminUserTable users={rows} currentUserId={admin.id} />
     </section>
   );
