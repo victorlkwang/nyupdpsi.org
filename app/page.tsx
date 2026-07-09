@@ -49,7 +49,7 @@ export default function HomePage() {
             screens. The image's black background blends with the section. */}
         <div className="relative mx-auto h-56 w-full max-w-6xl sm:h-64 md:h-72 lg:h-80">
           <Image
-            src="/images/desktop/pdpsi_logo.webp"
+            src="/images/desktop/pdpsi_logo_v2.webp"
             alt="Pi Delta Psi Logo"
             fill
             sizes="(min-width: 1152px) 1152px, 100vw"
