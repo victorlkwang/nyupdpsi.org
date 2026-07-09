@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AlumniPage() {
-  const alumni = await getRosterByStatus("ALUMNI");
+  const alumni = await getRosterByStatus("ALUMNI", { archiveAncient: true });
   const classNames = Object.keys(alumni);
   // Default to the most recent alumni class (most relevant to visitors).
   const defaultClass = classNames[classNames.length - 1] ?? "";
