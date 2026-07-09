@@ -169,9 +169,9 @@ export default function RushInterestForm() {
             <input
               id="nyuEmail"
               name="nyuEmail"
-              type="email"
+              type="text"
               required
-              placeholder="netid@nyu.edu"
+              placeholder="netid or netid@nyu.edu"
               className={inputClass}
             />
           </div>

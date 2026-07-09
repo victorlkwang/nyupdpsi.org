@@ -17,33 +17,8 @@ export default async function RushPage() {
   const setting = await prisma.formSetting.findUnique({ where: { id: 1 } });
   const activeEvent = setting?.activeEvent ?? null;
 
-  // When an event is active, the interest form is replaced by that event's
-  // attendance sign-in (term graphics/archive hidden to keep check-in focused).
-  if (activeEvent) {
-    return (
-      <>
-        <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
-          <Image
-            src="/images/desktop/beta-etas.webp"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 z-10 flex items-center justify-center px-4 text-center">
-            <h1 className="text-4xl font-bold text-white drop-shadow-lg md:text-6xl">SIGN IN</h1>
-          </div>
-        </section>
-        <section className="bg-white px-6 py-20">
-          <div className="mx-auto max-w-6xl">
-            <AttendanceForm eventLabel={EVENT_LABEL[activeEvent]} />
-          </div>
-        </section>
-      </>
-    );
-  }
-
+  // The toggle only swaps the form itself — the hero, term graphics, and archive
+  // are the same whether the interest form or an event attendance form is shown.
   return (
     <>
       <section className="relative h-[65vh] w-full overflow-hidden md:h-screen">
@@ -70,7 +45,11 @@ export default async function RushPage() {
             </h2>
           )}
 
-          <RushInterestForm />
+          {activeEvent ? (
+            <AttendanceForm eventLabel={EVENT_LABEL[activeEvent]} />
+          ) : (
+            <RushInterestForm />
+          )}
 
           {currentRush && (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

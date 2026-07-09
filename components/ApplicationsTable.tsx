@@ -9,9 +9,12 @@ export type ApplicationRow = {
   fullName: string;
   nyuEmail: string;
   phoneNumber: string;
-  year: string;
-  school: string;
+  year: string | null;
+  school: string | null;
   instagramHandle: string | null;
+  events: string[];
+  applied: boolean;
+  archived: boolean;
   thankYouSent: boolean;
   messageSent: string | null;
 };
@@ -19,7 +22,7 @@ export type ApplicationRow = {
 export default function ApplicationsTable({ applications }: { applications: ApplicationRow[] }) {
   const router = useRouter();
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [sending, setSending] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
@@ -42,7 +45,7 @@ export default function ApplicationsTable({ applications }: { applications: Appl
     const ids = [...selected];
     if (ids.length === 0) return;
     if (!confirm(`Send the follow-up message to ${ids.length} selected rushee(s)?`)) return;
-    setSending(true);
+    setBusy(true);
     setError("");
     setNotice("");
     try {
@@ -64,7 +67,48 @@ export default function ApplicationsTable({ applications }: { applications: Appl
     } catch {
       setError("Network error. Please try again.");
     } finally {
-      setSending(false);
+      setBusy(false);
+    }
+  }
+
+  async function archive(id: string, archived: boolean) {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/applications/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ archived }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        setError(body.error ?? "Couldn't update that response.");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function remove(id: string, name: string) {
+    if (!confirm(`Permanently delete ${name}'s response? This can't be undone.`)) return;
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/applications/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        setError(body.error ?? "Couldn't delete that response.");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -80,17 +124,17 @@ export default function ApplicationsTable({ applications }: { applications: Appl
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <button
           onClick={sendToSelected}
-          disabled={sending || selected.size === 0}
+          disabled={busy || selected.size === 0}
           className="rounded-full bg-red-600 px-5 py-2 text-sm font-bold text-white shadow transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {sending ? "Sending…" : `Send message to ${selected.size} selected`}
+          {busy ? "Working…" : `Send message to ${selected.size} selected`}
         </button>
         {notice && <span className="text-sm font-semibold text-green-700">{notice}</span>}
         {error && <span className="text-sm font-semibold text-red-700">{error}</span>}
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow">
-        <table className="w-full min-w-[920px] text-left text-sm">
+        <table className="w-full min-w-[1080px] text-left text-sm">
           <thead className="border-b border-gray-200 bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
             <tr>
               <th className="px-4 py-3">
@@ -110,6 +154,8 @@ export default function ApplicationsTable({ applications }: { applications: Appl
               <th className="px-4 py-3">Year</th>
               <th className="px-4 py-3">School</th>
               <th className="px-4 py-3">Instagram</th>
+              <th className="px-4 py-3">Events</th>
+              <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -126,6 +172,11 @@ export default function ApplicationsTable({ applications }: { applications: Appl
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-gray-500">
                   {app.submitted}
+                  {!app.applied && (
+                    <span className="mt-0.5 block text-[11px] font-semibold text-amber-600">
+                      attendance only
+                    </span>
+                  )}
                   {app.thankYouSent && (
                     <span className="mt-0.5 block text-[11px] font-semibold text-green-700">
                       ✓ thank-you sent
@@ -140,9 +191,39 @@ export default function ApplicationsTable({ applications }: { applications: Appl
                 <td className="px-4 py-3 font-medium text-black">{app.fullName}</td>
                 <td className="px-4 py-3 text-gray-600">{app.nyuEmail}</td>
                 <td className="whitespace-nowrap px-4 py-3 text-gray-600">{app.phoneNumber}</td>
-                <td className="px-4 py-3 text-gray-600">{app.year}</td>
-                <td className="px-4 py-3 text-gray-600">{app.school}</td>
+                <td className="px-4 py-3 text-gray-600">{app.year ?? "—"}</td>
+                <td className="px-4 py-3 text-gray-600">{app.school ?? "—"}</td>
                 <td className="px-4 py-3 text-gray-600">{app.instagramHandle ?? "—"}</td>
+                <td className="px-4 py-3">
+                  {app.events.length === 0 ? (
+                    <span className="text-gray-300">—</span>
+                  ) : (
+                    <span
+                      className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-700"
+                      title={app.events.join(", ")}
+                    >
+                      {app.events.length} event{app.events.length === 1 ? "" : "s"}
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-3">
+                  <div className="flex justify-end gap-2 text-xs font-semibold">
+                    <button
+                      onClick={() => archive(app.id, !app.archived)}
+                      disabled={busy}
+                      className="text-gray-600 hover:text-red-600 disabled:opacity-50"
+                    >
+                      {app.archived ? "Unarchive" : "Archive"}
+                    </button>
+                    <button
+                      onClick={() => remove(app.id, app.fullName)}
+                      disabled={busy}
+                      className="text-gray-400 hover:text-red-600 disabled:opacity-50"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

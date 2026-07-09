@@ -36,19 +36,23 @@ export function fillTemplate(text: string, app: Pick<RushApplication, "fullName"
 export type SendOutcome = { email: boolean };
 
 /**
- * Render and send one message kind to a rushee by email. Returns whether it was
- * actually dispatched (false when no Resend key is configured), so the caller
- * can record accurate status.
+ * Render and send one message kind to a rushee, delivered to both their
+ * personal and NYU email (deduped; the personal address may be absent for
+ * attendance-only rushees). Returns whether anything was actually dispatched
+ * (false when no Resend key is configured), so the caller can record status.
  */
 export async function sendRushMessage(
   kind: MessageKind,
-  app: Pick<RushApplication, "fullName" | "email">
+  app: Pick<RushApplication, "fullName" | "email" | "nyuEmail">
 ): Promise<SendOutcome> {
   const tpl = await getTemplate(kind);
-  const email = await sendBasicEmail(
-    app.email,
-    fillTemplate(tpl.emailSubject, app),
-    fillTemplate(tpl.emailBody, app)
-  );
-  return { email };
+  const subject = fillTemplate(tpl.emailSubject, app);
+  const body = fillTemplate(tpl.emailBody, app);
+
+  const recipients = [...new Set([app.email, app.nyuEmail].filter((e): e is string => !!e))];
+  let sent = false;
+  for (const to of recipients) {
+    if (await sendBasicEmail(to, subject, body)) sent = true;
+  }
+  return { email: sent };
 }
