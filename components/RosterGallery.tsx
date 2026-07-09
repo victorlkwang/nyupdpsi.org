@@ -95,11 +95,11 @@ export default function RosterGallery({
             onChange={(e) => {
               if (e.target.value) setActiveClass(e.target.value);
             }}
-            className={`cursor-pointer rounded-full px-4 py-2 font-medium shadow transition-all duration-200 ${
+            className={`w-48 cursor-pointer truncate rounded-full px-4 py-2 text-center font-medium shadow transition-all duration-200 ${
               archivedActive ? "bg-red-600 text-white" : "bg-gray-200 text-black"
             }`}
           >
-            <option value="">Bones &amp; Fossils ▾</option>
+            <option value="">Bones &amp; Fossils</option>
             {archivedClasses.map((c) => (
               <option key={c.name} value={c.name}>
                 {c.label}
