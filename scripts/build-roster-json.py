@@ -27,6 +27,11 @@ import openpyxl
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "prisma" / "seed-data" / "roster.json"
 
+# De-lettered brothers — no longer associated with the chapter, so kept out of
+# the roster entirely. (Roger Shui #195 is also excluded via the "de-lettered"
+# marker in the spreadsheet's BroID column; these are ones not marked there.)
+DELETTERED_NUMBERS = {257}
+
 
 def norm(s):
     """Normalize a name/pledge for fuzzy matching: strip, lowercase, drop
@@ -84,9 +89,11 @@ def parse_xlsx(path):
         if isinstance(num, (int, float)) and float(num).is_integer():
             crossing = int(num)
 
-        # Skip de-lettered brothers (marked in the BroID column). They are not
-        # part of the displayed roster and have no littles.
+        # Skip de-lettered brothers (marked in the BroID column, or listed in
+        # DELETTERED_NUMBERS). They are not part of the displayed roster.
         if clean(broid) and "de-letter" in str(broid).lower():
+            continue
+        if crossing in DELETTERED_NUMBERS:
             continue
 
         brothers.append(
