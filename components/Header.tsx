@@ -20,9 +20,8 @@ const navLinkClass = "font-bold text-white transition-colors hover:text-red-500"
 function authLinksFor(role: Role) {
   const links: { href: string; label: string }[] = [];
   links.push({ href: "/directory", label: "DIRECTORY" });
-  if (role === "ADMIN" || role === "BRO") links.push({ href: "/applications", label: "APPLICATIONS" });
+  if (role === "ADMIN" || role === "BRO") links.push({ href: "/applications", label: "APPS" });
   if (role === "ADMIN") links.push({ href: "/admin", label: "ADMIN" });
-  links.push({ href: "/account", label: "ACCOUNT" });
   return links;
 }
 
