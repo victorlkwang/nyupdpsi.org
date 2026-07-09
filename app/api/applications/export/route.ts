@@ -12,6 +12,7 @@ const COLUMNS = [
   "year",
   "school",
   "instagramHandle",
+  "isGoodKid",
 ] as const;
 
 function csvEscape(value: unknown): string {

@@ -39,6 +39,23 @@ enum School {
   OTHER
 }
 
+enum MessageKind {
+  THANK_YOU
+  GOOD_KID
+}
+
+// Editable message templates for the automatic thank-you and the "good kid"
+// follow-up. One row per kind; the app falls back to built-in defaults if a row
+// is missing, so messaging works before an admin ever opens the editor.
+model MessageTemplate {
+  id           String      @id @default(cuid())
+  kind         MessageKind @unique
+  emailSubject String
+  emailBody    String      // plain text; {{firstName}} / {{name}} are substituted
+  smsBody      String      // plain text; same placeholders
+  updatedAt    DateTime    @updatedAt
+}
+
 model RushApplication {
   id              String   @id @default(cuid())
   term            String
@@ -49,6 +66,11 @@ model RushApplication {
   year            Year
   school          School
   instagramHandle String?
+  // Rush team can flag a promising rushee to receive the separate "good kid"
+  // message. Sent timestamps guard against double-sends and drive status UI.
+  isGoodKid       Boolean   @default(false)
+  thankYouSentAt  DateTime?
+  goodKidSentAt   DateTime?
   createdAt       DateTime @default(now())
 
   // One submission per rushee per rush cycle; re-applying next term is fine.

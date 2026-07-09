@@ -37,6 +37,39 @@ async function send(to: string, subject: string, html: string, devLink: string):
   }
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * Send a simple message email (no call-to-action button) from a plain-text
+ * body — used for the rush thank-you and "good kid" messages. Blank lines
+ * become paragraph breaks. Returns whether it was actually dispatched (false
+ * when no Resend key is configured), so callers can record accurate status.
+ */
+export async function sendBasicEmail(to: string, subject: string, textBody: string): Promise<boolean> {
+  const paragraphs = escapeHtml(textBody)
+    .split(/\n{2,}/)
+    .map(
+      (p) =>
+        `<p style="font-size:14px;line-height:1.6;color:#374151;margin:0 0 16px">${p.replace(/\n/g, "<br>")}</p>`
+    )
+    .join("");
+  const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#111">${paragraphs}</div>`;
+
+  if (!resend) {
+    console.log(`[email] (not sent — RESEND_API_KEY unset) ${subject} -> ${to}\n[email] body:\n${textBody}`);
+    return false;
+  }
+  const { error } = await resend.emails.send({ from: FROM, to, subject, html });
+  if (error) throw new Error(`Resend failed to send email: ${error.message}`);
+  return true;
+}
+
 export async function sendVerificationEmail(to: string, name: string, rawToken: string): Promise<void> {
   const link = `${APP_URL}/api/auth/verify-email?token=${rawToken}`;
   const html = layout(

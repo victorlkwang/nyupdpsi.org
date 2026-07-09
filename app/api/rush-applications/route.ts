@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { activeRushTerm } from "@/data/rush";
+import { sendRushMessage } from "@/lib/messaging";
 
 const RushApplicationSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email address."),
@@ -43,8 +44,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  let application;
   try {
-    await prisma.rushApplication.create({
+    application = await prisma.rushApplication.create({
       data: {
         ...data,
         instagramHandle: instagramHandle || null,
@@ -60,6 +62,23 @@ export async function POST(request: Request) {
     }
     console.error("Failed to save rush application:", error);
     return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+  }
+
+  // Fire the automatic thank-you (email + SMS). Best-effort: a messaging failure
+  // must not fail the submission the rushee just completed, so we only log it.
+  try {
+    const outcome = await sendRushMessage("THANK_YOU", application);
+    if (outcome.email) {
+      await prisma.rushApplication.update({
+        where: { id: application.id },
+        data: { thankYouSentAt: new Date() },
+      });
+    }
+    if (!outcome.sms && outcome.smsReason) {
+      console.warn(`Thank-you SMS not sent for ${application.id}: ${outcome.smsReason}`);
+    }
+  } catch (error) {
+    console.error("Failed to send thank-you message:", error);
   }
 
   return NextResponse.json({ ok: true });
