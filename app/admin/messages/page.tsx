@@ -36,8 +36,8 @@ export default async function AdminMessagesPage() {
         />
         <MessageTemplateEditor
           kind="GOOD_KID"
-          title="“Good kid” follow-up"
-          description="Sent when you flag a rushee as a good kid on the Applications page and hit Send."
+          title="Follow-up message"
+          description="Sent to the rushees you select on the Applications page when you hit “Send message”."
           template={goodKid}
         />
       </div>

@@ -40,7 +40,13 @@ export default async function AdminPage() {
           href="/admin/messages"
           className="block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
         >
-          Customize rush messages (thank-you &amp; good kid) &rarr;
+          Customize rush messages (thank-you &amp; follow-up) &rarr;
+        </Link>
+        <Link
+          href="/admin/attendance"
+          className="block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
+        >
+          Rush attendance &amp; form switcher &rarr;
         </Link>
       </div>
       <AdminUserTable users={rows} currentUserId={admin.id} />

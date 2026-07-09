@@ -83,3 +83,15 @@ export const MessageTemplateSchema = z.object({
   emailBody: z.string().trim().min(1, "Email body is required.").max(5000),
   smsBody: z.string().trim().min(1, "Text message is required.").max(1000),
 });
+
+// --- Attendance -------------------------------------------------------------
+
+export const AttendanceSchema = z.object({
+  name: z.string().trim().min(1, "Name is required.").max(200),
+  // Kept loose here; normalized + validated as an nyu.edu address in the route.
+  nyuEmail: z.string().trim().min(1, "NYU email is required.").max(200),
+  phoneNumber: z.string().trim().min(1, "Phone number is required.").max(40),
+  instagramHandle: z.string().trim().max(60).optional().or(z.literal("")),
+  // Honeypot — bots that fill it get a fake success.
+  company: z.string().optional().or(z.literal("")),
+});

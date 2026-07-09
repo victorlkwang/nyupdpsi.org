@@ -31,9 +31,8 @@ export default async function ApplicationsPage() {
     year: app.year,
     school: app.school,
     instagramHandle: app.instagramHandle,
-    isGoodKid: app.isGoodKid,
     thankYouSent: app.thankYouSentAt !== null,
-    goodKidSent: app.goodKidSentAt ? dateFormatter.format(app.goodKidSentAt) : null,
+    messageSent: app.messageSentAt ? dateFormatter.format(app.messageSentAt) : null,
   }));
 
   return (
@@ -55,9 +54,7 @@ export default async function ApplicationsPage() {
               Edit messages
             </Link>
           )}
-          {/* Plain anchor: this is a file download from an API route, not page
-              navigation, so next/link would be wrong here. */}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          {/* Plain anchor: file download from an API route, not page navigation. */}
           <a
             href="/api/applications/export"
             className="rounded-full bg-black px-5 py-2.5 text-sm font-bold text-white transition hover:bg-red-600"
