@@ -64,23 +64,50 @@ export default function RosterGallery({
   data,
   defaultClass,
   emptyMessage = "No photos yet.",
+  archivedClasses = [],
 }: {
   data: RosterByClass;
   defaultClass: string;
   emptyMessage?: string;
+  // Older classes tucked into a "Bones & Fossils" dropdown instead of tabs.
+  archivedClasses?: { name: string; label: string }[];
 }) {
-  const classes = Object.keys(data);
-  const initialClass = classes.includes(defaultClass) ? defaultClass : (classes[0] ?? "");
+  const allClasses = Object.keys(data);
+  const archivedSet = new Set(archivedClasses.map((c) => c.name));
+  const tabClasses = allClasses.filter((c) => !archivedSet.has(c));
+  const initialClass = allClasses.includes(defaultClass)
+    ? defaultClass
+    : tabClasses[0] ?? allClasses[0] ?? "";
   const [activeClass, setActiveClass] = useState(initialClass);
   const members = data[activeClass] ?? [];
+  const archivedActive = archivedSet.has(activeClass);
 
   const columns: RosterMember[][] = [[], [], [], []];
   members.forEach((member, index) => columns[index % 4].push(member));
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
-      <div className="mb-8 flex flex-wrap justify-center gap-3">
-        {classes.map((className) => (
+      <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
+        {archivedClasses.length > 0 && (
+          <select
+            aria-label="Bones & Fossils — older classes"
+            value={archivedActive ? activeClass : ""}
+            onChange={(e) => {
+              if (e.target.value) setActiveClass(e.target.value);
+            }}
+            className={`cursor-pointer rounded-full px-4 py-2 font-medium shadow transition-all duration-200 ${
+              archivedActive ? "bg-red-600 text-white" : "bg-gray-200 text-black"
+            }`}
+          >
+            <option value="">Bones &amp; Fossils ▾</option>
+            {archivedClasses.map((c) => (
+              <option key={c.name} value={c.name}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        )}
+        {tabClasses.map((className) => (
           <button
             key={className}
             onClick={() => setActiveClass(className)}

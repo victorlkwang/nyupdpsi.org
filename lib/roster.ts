@@ -6,13 +6,12 @@ import type { RosterByClass, RosterMember } from "@/data/types";
 export const NO_PHOTO_SRC = "/images/alums/no-photo.webp";
 
 /**
- * Alumni pages collapse every class older than this one into a single
- * "Bones & Fossils" tab to keep the tab bar manageable (there are 40+ classes
- * before it). The boundary class itself and everything newer stay as their own
- * tabs.
+ * On the Alumni page, every class older than this one is tucked into a single
+ * "Bones & Fossils" dropdown instead of getting its own tab (there are 40+ such
+ * classes). Each old class is still individually selectable from the dropdown;
+ * the boundary class and everything newer stay as normal tabs.
  */
 export const ARCHIVE_BEFORE_CLASS = "Alpha Phi";
-export const ARCHIVE_LABEL = "Bones & Fossils";
 
 /** "Daniel *GENTLE MONSTER* Sun" — the display format the gallery expects. */
 export function formatName(b: {
@@ -60,10 +59,7 @@ function toMember(b: BrotherWithLinks): RosterMember {
  * are always derived from the big/little relation, regardless of the little's
  * own status.
  */
-export async function getRosterByStatus(
-  status: BrotherStatus,
-  options: { archiveAncient?: boolean } = {}
-): Promise<RosterByClass> {
+export async function getRosterByStatus(status: BrotherStatus): Promise<RosterByClass> {
   const classes = await prisma.pledgeClass.findMany({
     orderBy: { sortOrder: "asc" },
     include: {
@@ -75,20 +71,26 @@ export async function getRosterByStatus(
     },
   });
 
-  // When archiving, every class older than ARCHIVE_BEFORE_CLASS is merged into
-  // one "Bones & Fossils" bucket. Because classes are already in ascending
-  // sortOrder, that bucket ends up first and accumulates in chronological order.
-  const boundary = options.archiveAncient
-    ? classes.find((c) => c.name === ARCHIVE_BEFORE_CLASS)?.sortOrder ?? null
-    : null;
-
   const roster: RosterByClass = {};
   for (const c of classes) {
     if (c.brothers.length === 0) continue;
-    const key = boundary !== null && c.sortOrder < boundary ? ARCHIVE_LABEL : c.name;
-    roster[key] = (roster[key] ?? []).concat(c.brothers.map(toMember));
+    roster[c.name] = c.brothers.map(toMember);
   }
   return roster;
+}
+
+/**
+ * Class names (with their term) older than ARCHIVE_BEFORE_CLASS, oldest first.
+ * The Alumni page groups these into the "Bones & Fossils" dropdown.
+ */
+export async function getArchivedClasses(): Promise<{ name: string; term: string | null }[]> {
+  const classes = await prisma.pledgeClass.findMany({
+    orderBy: { sortOrder: "asc" },
+    select: { name: true, term: true, sortOrder: true },
+  });
+  const boundary = classes.find((c) => c.name === ARCHIVE_BEFORE_CLASS)?.sortOrder ?? null;
+  if (boundary === null) return [];
+  return classes.filter((c) => c.sortOrder < boundary).map((c) => ({ name: c.name, term: c.term }));
 }
 
 export type DirectoryBrother = {

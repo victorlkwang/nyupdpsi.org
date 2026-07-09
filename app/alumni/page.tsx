@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import RosterGallery from "@/components/RosterGallery";
-import { getRosterByStatus } from "@/lib/roster";
+import { getArchivedClasses, getRosterByStatus } from "@/lib/roster";
 
 export const metadata: Metadata = {
   title: "Alumni",
@@ -11,8 +11,15 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AlumniPage() {
-  const alumni = await getRosterByStatus("ALUMNI", { archiveAncient: true });
+  const [alumni, archived] = await Promise.all([
+    getRosterByStatus("ALUMNI"),
+    getArchivedClasses(),
+  ]);
   const classNames = Object.keys(alumni);
+  // The oldest classes (that actually have alumni) go in the dropdown.
+  const archivedClasses = archived
+    .filter((c) => classNames.includes(c.name))
+    .map((c) => ({ name: c.name, label: c.term ? `${c.name} · ${c.term}` : c.name }));
   // Default to the most recent alumni class (most relevant to visitors).
   const defaultClass = classNames[classNames.length - 1] ?? "";
   return (
@@ -33,7 +40,12 @@ export default async function AlumniPage() {
         </div>
       </section>
 
-      <RosterGallery data={alumni} defaultClass={defaultClass} emptyMessage="No alumni listed yet." />
+      <RosterGallery
+        data={alumni}
+        defaultClass={defaultClass}
+        archivedClasses={archivedClasses}
+        emptyMessage="No alumni listed yet."
+      />
     </>
   );
 }
