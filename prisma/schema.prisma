@@ -39,6 +39,58 @@ enum School {
   OTHER
 }
 
+enum MessageKind {
+  THANK_YOU
+  GOOD_KID // internal name for the follow-up message sent to selected rushees
+}
+
+// The six rush events whose attendance sheets can replace the interest form.
+enum RushEvent {
+  SCAVENGER_HUNT
+  ACTIVITY_NIGHT_KAPPAS
+  ACTIVITY_NIGHT_SIGMAS
+  GAME_NIGHT
+  GENERAL_INTEREST_MEETING
+  ACTIVITY_NIGHT_AKDPHIS
+}
+
+// Single-row (id = 1) global setting for what the public /rush form shows.
+// activeEvent = null means the normal rush interest form; otherwise the
+// attendance sheet for that event.
+model FormSetting {
+  id          Int        @id @default(1)
+  activeEvent RushEvent?
+  updatedAt   DateTime   @updatedAt
+}
+
+// One check-in per rushee per event. A rushee's identity is the normalized
+// (nyuEmail, phoneNumber) pair, so re-submitting the same event is a no-op and
+// their attendance across events can be grouped on that pair. Both fields are
+// stored already-normalized (lowercased netid@nyu.edu; digits-only phone).
+model EventAttendance {
+  id              String    @id @default(cuid())
+  event           RushEvent
+  name            String
+  nyuEmail        String
+  phoneNumber     String
+  instagramHandle String?
+  createdAt       DateTime  @default(now())
+
+  @@unique([event, nyuEmail, phoneNumber])
+  @@index([nyuEmail, phoneNumber])
+}
+
+// Editable message templates for the automatic thank-you and the follow-up
+// message. One row per kind; the app falls back to built-in defaults if a row
+// is missing, so messaging works before an admin ever opens the editor.
+model MessageTemplate {
+  id           String      @id @default(cuid())
+  kind         MessageKind @unique
+  emailSubject String
+  emailBody    String      // plain text; {{firstName}} / {{name}} are substituted
+  updatedAt    DateTime    @updatedAt
+}
+
 model RushApplication {
   id              String   @id @default(cuid())
   term            String
@@ -49,6 +101,10 @@ model RushApplication {
   year            Year
   school          School
   instagramHandle String?
+  // Sent timestamps: the automatic thank-you, and the follow-up message the
+  // rush team sends to a chosen set of rushees. Drive the "sent" status UI.
+  thankYouSentAt  DateTime?
+  messageSentAt   DateTime?
   createdAt       DateTime @default(now())
 
   // One submission per rushee per rush cycle; re-applying next term is fine.

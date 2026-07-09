@@ -74,3 +74,23 @@ export const BrotherSchema = z.object({
 export const StatusUpdateSchema = z.object({
   status: z.enum(["ACTIVE", "ALUMNI"]),
 });
+
+// --- Messaging --------------------------------------------------------------
+
+export const MessageTemplateSchema = z.object({
+  kind: z.enum(["THANK_YOU", "GOOD_KID"]),
+  emailSubject: z.string().trim().min(1, "Email subject is required.").max(200),
+  emailBody: z.string().trim().min(1, "Email body is required.").max(5000),
+});
+
+// --- Attendance -------------------------------------------------------------
+
+export const AttendanceSchema = z.object({
+  name: z.string().trim().min(1, "Name is required.").max(200),
+  // Kept loose here; normalized + validated as an nyu.edu address in the route.
+  nyuEmail: z.string().trim().min(1, "NYU email is required.").max(200),
+  phoneNumber: z.string().trim().min(1, "Phone number is required.").max(40),
+  instagramHandle: z.string().trim().max(60).optional().or(z.literal("")),
+  // Honeypot — bots that fill it get a fake success.
+  company: z.string().optional().or(z.literal("")),
+});

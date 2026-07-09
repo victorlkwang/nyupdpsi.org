@@ -29,12 +29,26 @@ export default async function AdminPage() {
         Promote members to <strong>BRO</strong> so they can view rush applications. Admins can view
         everything and manage roles. You can&rsquo;t change your own role.
       </p>
-      <Link
-        href="/admin/roster"
-        className="mb-6 block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
-      >
-        Manage roster (brothers, classes &amp; photos) &rarr;
-      </Link>
+      <div className="mb-6 space-y-3">
+        <Link
+          href="/admin/roster"
+          className="block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
+        >
+          Manage roster (brothers, classes &amp; photos) &rarr;
+        </Link>
+        <Link
+          href="/admin/messages"
+          className="block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
+        >
+          Customize rush messages (thank-you &amp; follow-up) &rarr;
+        </Link>
+        <Link
+          href="/admin/attendance"
+          className="block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
+        >
+          Rush attendance &amp; form switcher &rarr;
+        </Link>
+      </div>
       <AdminUserTable users={rows} currentUserId={admin.id} />
     </section>
   );
