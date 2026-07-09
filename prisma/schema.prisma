@@ -63,23 +63,6 @@ model FormSetting {
   updatedAt   DateTime   @updatedAt
 }
 
-// One check-in per rushee per event. A rushee's identity is the normalized
-// (nyuEmail, phoneNumber) pair, so re-submitting the same event is a no-op and
-// their attendance across events can be grouped on that pair. Both fields are
-// stored already-normalized (lowercased netid@nyu.edu; digits-only phone).
-model EventAttendance {
-  id              String    @id @default(cuid())
-  event           RushEvent
-  name            String
-  nyuEmail        String
-  phoneNumber     String
-  instagramHandle String?
-  createdAt       DateTime  @default(now())
-
-  @@unique([event, nyuEmail, phoneNumber])
-  @@index([nyuEmail, phoneNumber])
-}
-
 // Editable message templates for the automatic thank-you and the follow-up
 // message. One row per kind; the app falls back to built-in defaults if a row
 // is missing, so messaging works before an admin ever opens the editor.
@@ -91,23 +74,32 @@ model MessageTemplate {
   updatedAt    DateTime    @updatedAt
 }
 
+// One row per rushee per rush cycle — the single home for both interest-form
+// submissions and event attendance. A rushee who only checks in at events (no
+// interest form) still gets a row, with the application-only fields left null.
+// Identity is (nyuEmail, term); nyuEmail is stored normalized (netid@nyu.edu).
 model RushApplication {
   id              String   @id @default(cuid())
   term            String
-  email           String
   fullName        String
   nyuEmail        String
   phoneNumber     String
-  year            Year
-  school          School
+  // Application-only fields — null for attendance-only rushees.
+  email           String?
+  year            Year?
+  school          School?
   instagramHandle String?
+  // Which of the six events this rushee signed in at.
+  attendedEvents  RushEvent[] @default([])
   // Sent timestamps: the automatic thank-you, and the follow-up message the
   // rush team sends to a chosen set of rushees. Drive the "sent" status UI.
   thankYouSentAt  DateTime?
   messageSentAt   DateTime?
+  // Soft-delete: archived responses are hidden from the default admin view.
+  archivedAt      DateTime?
   createdAt       DateTime @default(now())
 
-  // One submission per rushee per rush cycle; re-applying next term is fine.
+  // One row per rushee per rush cycle; re-applying next term is fine.
   @@unique([nyuEmail, term])
 }
 

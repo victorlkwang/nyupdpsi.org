@@ -1,19 +1,15 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { activeRushTerm } from "@/data/rush";
 import { sendRushMessage } from "@/lib/messaging";
+import { normalizeNyuEmail, isValidNyuEmail } from "@/lib/normalize";
 
 const RushApplicationSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email address."),
   fullName: z.string().trim().min(1, "Full name is required.").max(200),
-  nyuEmail: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .email("Enter a valid email address.")
-    .refine((value) => value.endsWith("nyu.edu"), "Enter your NYU email address."),
+  // Kept loose: normalized to netid@nyu.edu below (a bare netid is fine).
+  nyuEmail: z.string().trim().min(1, "Enter your NYU email address.").max(200),
   phoneNumber: z.string().trim().min(7, "Enter a valid phone number.").max(20),
   year: z.enum(["FRESHMAN", "SOPHOMORE", "JUNIOR", "SENIOR"]),
   school: z.enum(["STERN", "STEINHARDT", "CAS", "GALLATIN", "TANDON", "TISCH", "OTHER"]),
@@ -38,31 +34,40 @@ export async function POST(request: Request) {
     );
   }
 
-  const { company, instagramHandle, ...data } = parsed.data;
+  const { company, instagramHandle, nyuEmail: rawNyuEmail, ...data } = parsed.data;
   if (company) {
     // Bot filled the honeypot; report success without writing anything.
     return NextResponse.json({ ok: true });
   }
 
-  let application;
-  try {
-    application = await prisma.rushApplication.create({
-      data: {
-        ...data,
-        instagramHandle: instagramHandle || null,
-        term: activeRushTerm,
-      },
-    });
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      return NextResponse.json(
-        { error: "You've already submitted an interest form for this rush cycle." },
-        { status: 409 }
-      );
-    }
-    console.error("Failed to save rush application:", error);
-    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+  // Accept a bare netid and append @nyu.edu before storing.
+  const nyuEmail = normalizeNyuEmail(rawNyuEmail);
+  if (!isValidNyuEmail(nyuEmail)) {
+    return NextResponse.json({ error: "Enter a valid NYU email." }, { status: 400 });
   }
+
+  // One row per (nyuEmail, term). If an attendance-only row already exists for
+  // this rushee, this interest form fills in its application details; if they've
+  // already applied, it's a duplicate.
+  const existing = await prisma.rushApplication.findUnique({
+    where: { nyuEmail_term: { nyuEmail, term: activeRushTerm } },
+  });
+  if (existing && existing.year !== null) {
+    return NextResponse.json(
+      { error: "You've already submitted an interest form for this rush cycle." },
+      { status: 409 }
+    );
+  }
+
+  const fields = {
+    ...data,
+    nyuEmail,
+    instagramHandle: instagramHandle || existing?.instagramHandle || null,
+    term: activeRushTerm,
+  };
+  const application = existing
+    ? await prisma.rushApplication.update({ where: { id: existing.id }, data: fields })
+    : await prisma.rushApplication.create({ data: fields });
 
   // Fire the automatic thank-you email. Best-effort: a send failure must not
   // fail the submission the rushee just completed, so we only log it.

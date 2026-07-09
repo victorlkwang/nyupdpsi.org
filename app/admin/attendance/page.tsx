@@ -11,40 +11,26 @@ export const dynamic = "force-dynamic";
 export default async function AdminAttendancePage() {
   await requireRole("ADMIN");
 
-  const [setting, records] = await Promise.all([
+  const [setting, rushees] = await Promise.all([
     prisma.formSetting.findUnique({ where: { id: 1 } }),
-    prisma.eventAttendance.findMany({ orderBy: { createdAt: "asc" } }),
+    prisma.rushApplication.findMany({
+      where: { attendedEvents: { isEmpty: false }, archivedAt: null },
+      orderBy: { fullName: "asc" },
+    }),
   ]);
 
-  // Group check-ins into unique rushees keyed by (nyuEmail, phoneNumber).
-  type Rushee = {
-    name: string;
-    nyuEmail: string;
-    phoneNumber: string;
-    instagramHandle: string | null;
-    events: Set<string>;
-  };
-  const rushees = new Map<string, Rushee>();
-  for (const r of records) {
-    const key = `${r.nyuEmail}|${r.phoneNumber}`;
-    const existing = rushees.get(key);
-    if (existing) {
-      existing.name = r.name;
-      if (r.instagramHandle) existing.instagramHandle = r.instagramHandle;
-      existing.events.add(r.event);
-    } else {
-      rushees.set(key, {
-        name: r.name,
-        nyuEmail: r.nyuEmail,
-        phoneNumber: r.phoneNumber,
-        instagramHandle: r.instagramHandle,
-        events: new Set([r.event]),
-      });
-    }
-  }
-  const rows = [...rushees.values()].sort((a, b) => b.events.size - a.events.size);
+  const rows = rushees
+    .map((r) => ({
+      name: r.fullName,
+      nyuEmail: r.nyuEmail,
+      phoneNumber: r.phoneNumber,
+      instagramHandle: r.instagramHandle,
+      events: new Set<string>(r.attendedEvents),
+    }))
+    .sort((a, b) => b.events.size - a.events.size);
+  const totalCheckIns = rushees.reduce((n, r) => n + r.attendedEvents.length, 0);
   const perEvent = Object.fromEntries(
-    RUSH_EVENTS.map((e) => [e.value, records.filter((r) => r.event === e.value).length])
+    RUSH_EVENTS.map((e) => [e.value, rushees.filter((r) => r.attendedEvents.includes(e.value)).length])
   );
 
   return (
@@ -67,11 +53,12 @@ export default async function AdminAttendancePage() {
         <div>
           <h2 className="text-lg font-bold text-black">Attendees</h2>
           <p className="text-sm text-gray-500">
-            {rows.length} unique rushee{rows.length === 1 ? "" : "s"} across {records.length} check-in
-            {records.length === 1 ? "" : "s"}
+            {rows.length} unique rushee{rows.length === 1 ? "" : "s"} across {totalCheckIns} check-in
+            {totalCheckIns === 1 ? "" : "s"}
           </p>
         </div>
         {/* Plain anchor: file download from an API route, not page navigation. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/api/admin/attendance/export"
           className="rounded-full bg-black px-5 py-2.5 text-sm font-bold text-white transition hover:bg-red-600"
