@@ -21,7 +21,7 @@ export default async function AdminMessagesPage() {
       </Link>
       <h1 className="text-2xl font-extrabold text-black">Rush Messages</h1>
       <p className="mt-1 mb-6 text-sm text-gray-600">
-        Customize the messages sent to rushees over email and text. Use{" "}
+        Customize the emails sent to rushees. Use{" "}
         <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">{"{{firstName}}"}</code> or{" "}
         <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">{"{{name}}"}</code> to insert the
         rushee&rsquo;s name.

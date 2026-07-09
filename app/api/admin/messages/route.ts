@@ -19,11 +19,11 @@ export async function PUT(request: Request) {
     );
   }
 
-  const { kind, emailSubject, emailBody, smsBody } = parsed.data;
+  const { kind, emailSubject, emailBody } = parsed.data;
   await prisma.messageTemplate.upsert({
     where: { kind },
-    create: { kind, emailSubject, emailBody, smsBody },
-    update: { emailSubject, emailBody, smsBody },
+    create: { kind, emailSubject, emailBody },
+    update: { emailSubject, emailBody },
   });
   return NextResponse.json({ ok: true });
 }

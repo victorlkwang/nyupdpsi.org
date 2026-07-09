@@ -56,9 +56,8 @@ export default function ApplicationsTable({ applications }: { applications: Appl
         setError(body.error ?? "Couldn't send the messages.");
         return;
       }
-      const parts = [`Sent to ${body.sent}`];
+      const parts = [`Emailed ${body.sent}`];
       if (body.failed) parts.push(`${body.failed} failed`);
-      if (body.smsSkipped) parts.push(`${body.smsSkipped} without a text`);
       setNotice(parts.join(" · "));
       setSelected(new Set());
       router.refresh();

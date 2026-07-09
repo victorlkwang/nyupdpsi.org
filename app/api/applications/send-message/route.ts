@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 
 const Schema = z.object({ ids: z.array(z.string().min(1)).min(1, "Select at least one rushee.") });
 
-// Bros/admins send the follow-up message (email + SMS) to the selected rushees.
+// Bros/admins email the follow-up message to the selected rushees.
 // Best-effort per recipient; messageSentAt is stamped for each one attempted.
 export async function POST(request: Request) {
   const user = await getCurrentUser();
@@ -28,11 +28,9 @@ export async function POST(request: Request) {
 
   let sent = 0;
   let failed = 0;
-  let smsSkipped = 0;
   for (const app of apps) {
     try {
-      const outcome = await sendRushMessage("GOOD_KID", app);
-      if (!outcome.sms) smsSkipped++;
+      await sendRushMessage("GOOD_KID", app);
       await prisma.rushApplication.update({
         where: { id: app.id },
         data: { messageSentAt: new Date() },
@@ -44,5 +42,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, sent, failed, smsSkipped });
+  return NextResponse.json({ ok: true, sent, failed });
 }

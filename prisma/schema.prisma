@@ -88,7 +88,6 @@ model MessageTemplate {
   kind         MessageKind @unique
   emailSubject String
   emailBody    String      // plain text; {{firstName}} / {{name}} are substituted
-  smsBody      String      // plain text; same placeholders
   updatedAt    DateTime    @updatedAt
 }
 

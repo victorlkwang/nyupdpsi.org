@@ -64,8 +64,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 
-  // Fire the automatic thank-you (email + SMS). Best-effort: a messaging failure
-  // must not fail the submission the rushee just completed, so we only log it.
+  // Fire the automatic thank-you email. Best-effort: a send failure must not
+  // fail the submission the rushee just completed, so we only log it.
   try {
     const outcome = await sendRushMessage("THANK_YOU", application);
     if (outcome.email) {
@@ -74,11 +74,8 @@ export async function POST(request: Request) {
         data: { thankYouSentAt: new Date() },
       });
     }
-    if (!outcome.sms && outcome.smsReason) {
-      console.warn(`Thank-you SMS not sent for ${application.id}: ${outcome.smsReason}`);
-    }
   } catch (error) {
-    console.error("Failed to send thank-you message:", error);
+    console.error("Failed to send thank-you email:", error);
   }
 
   return NextResponse.json({ ok: true });

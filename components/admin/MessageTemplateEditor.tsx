@@ -21,7 +21,6 @@ export default function MessageTemplateEditor({
   const router = useRouter();
   const [emailSubject, setEmailSubject] = useState(template.emailSubject);
   const [emailBody, setEmailBody] = useState(template.emailBody);
-  const [smsBody, setSmsBody] = useState(template.smsBody);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [error, setError] = useState("");
@@ -35,7 +34,7 @@ export default function MessageTemplateEditor({
       const res = await fetch("/api/admin/messages", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind, emailSubject, emailBody, smsBody }),
+        body: JSON.stringify({ kind, emailSubject, emailBody }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -62,23 +61,12 @@ export default function MessageTemplateEditor({
         <span className="mb-1 block text-xs font-semibold text-gray-600">Email subject</span>
         <input value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} className={inputClass} />
       </label>
-      <label className="mb-3 block">
+      <label className="mb-4 block">
         <span className="mb-1 block text-xs font-semibold text-gray-600">Email body</span>
         <textarea
           value={emailBody}
           onChange={(e) => setEmailBody(e.target.value)}
           rows={6}
-          className={inputClass}
-        />
-      </label>
-      <label className="mb-4 block">
-        <span className="mb-1 block text-xs font-semibold text-gray-600">
-          Text message ({smsBody.length} chars)
-        </span>
-        <textarea
-          value={smsBody}
-          onChange={(e) => setSmsBody(e.target.value)}
-          rows={3}
           className={inputClass}
         />
       </label>

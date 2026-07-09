@@ -81,7 +81,6 @@ export const MessageTemplateSchema = z.object({
   kind: z.enum(["THANK_YOU", "GOOD_KID"]),
   emailSubject: z.string().trim().min(1, "Email subject is required.").max(200),
   emailBody: z.string().trim().min(1, "Email body is required.").max(5000),
-  smsBody: z.string().trim().min(1, "Text message is required.").max(1000),
 });
 
 // --- Attendance -------------------------------------------------------------
