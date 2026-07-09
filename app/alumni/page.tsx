@@ -22,6 +22,8 @@ export default async function AlumniPage() {
           src="/images/desktop/alum_cover.webp"
           alt=""
           fill
+          priority
+          sizes="100vw"
           className="object-cover object-center"
         />
         <div className="absolute inset-0 z-10 flex items-center justify-center px-4 text-center">
