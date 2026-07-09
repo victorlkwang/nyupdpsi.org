@@ -47,8 +47,9 @@ export default function AttendanceForm({ eventLabel }: { eventLabel: string }) {
 
   return (
     <div className="mx-auto max-w-2xl rounded-3xl border border-gray-200 bg-white p-6 shadow-xl md:p-10">
-      <h3 className="text-center text-2xl font-extrabold text-black md:text-3xl">Sign In</h3>
-      <p className="mt-2 text-center text-sm font-semibold text-red-600">{eventLabel}</p>
+      <h3 className="text-center text-2xl font-extrabold text-black md:text-3xl">
+        Attendance for {eventLabel}
+      </h3>
       <p className="mt-4 text-center text-sm text-gray-600">
         Thanks for coming out! Drop your info below so we can keep in touch.
       </p>
@@ -117,7 +118,7 @@ export default function AttendanceForm({ eventLabel }: { eventLabel: string }) {
             disabled={status === "submitting"}
             className="w-full rounded-full bg-black px-6 py-3 text-sm font-bold text-white transition duration-300 hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {status === "submitting" ? "Signing in..." : "Sign In"}
+            {status === "submitting" ? "Submitting..." : "Submit"}
           </button>
         </form>
       )}
