@@ -11,6 +11,7 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
+    "db:seed": "node --experimental-strip-types prisma/seed.ts",
     "optimize:images": "node scripts/optimize-images.js"
   },
   "dependencies": {

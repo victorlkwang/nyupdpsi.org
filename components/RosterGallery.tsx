@@ -16,6 +16,17 @@ function Overlay({ member, visibilityClass }: { member: RosterMember; visibility
         {member.year && <p>Year: {member.year}</p>}
         <p>Big: {member.big}</p>
         <p>Little: {member.little}</p>
+        {member.instagram && (
+          <a
+            href={`https://instagram.com/${member.instagram}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-block pt-1 text-red-300 underline hover:text-red-200"
+          >
+            @{member.instagram}
+          </a>
+        )}
       </div>
     </div>
   );
@@ -53,22 +64,50 @@ export default function RosterGallery({
   data,
   defaultClass,
   emptyMessage = "No photos yet.",
+  archivedClasses = [],
 }: {
   data: RosterByClass;
   defaultClass: string;
   emptyMessage?: string;
+  // Older classes tucked into a "Bones & Fossils" dropdown instead of tabs.
+  archivedClasses?: { name: string; label: string }[];
 }) {
-  const classes = Object.keys(data);
-  const [activeClass, setActiveClass] = useState(defaultClass);
+  const allClasses = Object.keys(data);
+  const archivedSet = new Set(archivedClasses.map((c) => c.name));
+  const tabClasses = allClasses.filter((c) => !archivedSet.has(c));
+  const initialClass = allClasses.includes(defaultClass)
+    ? defaultClass
+    : tabClasses[0] ?? allClasses[0] ?? "";
+  const [activeClass, setActiveClass] = useState(initialClass);
   const members = data[activeClass] ?? [];
+  const archivedActive = archivedSet.has(activeClass);
 
   const columns: RosterMember[][] = [[], [], [], []];
   members.forEach((member, index) => columns[index % 4].push(member));
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
-      <div className="mb-8 flex flex-wrap justify-center gap-3">
-        {classes.map((className) => (
+      <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
+        {archivedClasses.length > 0 && (
+          <select
+            aria-label="Bones & Fossils — older classes"
+            value={archivedActive ? activeClass : ""}
+            onChange={(e) => {
+              if (e.target.value) setActiveClass(e.target.value);
+            }}
+            className={`w-48 cursor-pointer truncate rounded-full px-4 py-2 text-center font-medium shadow transition-all duration-200 ${
+              archivedActive ? "bg-red-600 text-white" : "bg-gray-200 text-black"
+            }`}
+          >
+            <option value="">Bones &amp; Fossils</option>
+            {archivedClasses.map((c) => (
+              <option key={c.name} value={c.name}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        )}
+        {tabClasses.map((className) => (
           <button
             key={className}
             onClick={() => setActiveClass(className)}

@@ -24,6 +24,11 @@ enum Year {
   SENIOR
 }
 
+enum BrotherStatus {
+  ACTIVE
+  ALUMNI
+}
+
 enum School {
   STERN
   STEINHARDT
@@ -75,6 +80,82 @@ model Session {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+// One row per pledge class ("Beta Zeta", "Alpha Tau", ...). Greek class order
+// isn't alphabetical (Alpha, Beta, ... then Alpha Alpha, Alpha Beta, ... then
+// Beta Alpha, ...), so `sortOrder` — assigned chronologically — drives the tab
+// order on both the Active House and Alumni pages.
+model PledgeClass {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  // Human-readable term the class crossed, e.g. "Fall 2023". Optional.
+  term      String?
+  sortOrder Int       @unique
+  brothers  Brother[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// A single brother — active or alumnus. Graduating an active brother is just a
+// status flip (ACTIVE -> ALUMNI); nothing is copied or deleted, so his big/
+// little links and every other field survive the transition intact.
+model Brother {
+  id             String        @id @default(cuid())
+  // The crossing number shown as "#240" on cards. Nullable for the handful of
+  // brothers who never received one (e.g. transfers). Unique when present —
+  // Postgres allows multiple NULLs under a UNIQUE constraint.
+  crossingNumber Int?          @unique
+  firstName      String
+  lastName       String?
+  // Pledge name for actives, aka "nickname" for alumni — same field.
+  pledgeName     String
+  status         BrotherStatus @default(ALUMNI)
+
+  major          String?
+  // Expected / actual graduation year, e.g. 2027. Shown for actives.
+  gradYear       Int?
+  instagram      String?       // handle without the leading "@"
+
+  // Resolved image src used directly by the roster gallery. Points at a
+  // committed file under /images/... for seeded members, or at
+  // /api/brothers/{id}/photo once a photo is uploaded through the admin panel.
+  photoUrl       String?
+
+  classId     String
+  pledgeClass PledgeClass @relation(fields: [classId], references: [id])
+
+  // Big/little modeled as a self-relation: a brother's littles are everyone
+  // whose `bigId` points back at him, so the list can never drift out of sync.
+  bigId  String?
+  big    Brother?  @relation("BigLittle", fields: [bigId], references: [id])
+  littles Brother[] @relation("BigLittle")
+  // For the earliest brothers whose big predates this roster (or isn't in it):
+  // a plain display string used when `bigId` is null.
+  bigNameFallback String?
+
+  photo     BrotherPhoto?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([classId])
+  @@index([status])
+  @@index([bigId])
+}
+
+// Uploaded photo bytes live in the database rather than on disk: the app
+// container's filesystem is ephemeral (only the Postgres volume persists), so a
+// file written under public/ would vanish on the next deploy. Kept in its own
+// table so roster queries never haul image bytes around. Images are resized and
+// re-encoded to webp on upload, so each row is small (~50-150 KB).
+model BrotherPhoto {
+  id        String   @id @default(cuid())
+  brotherId String   @unique
+  brother   Brother  @relation(fields: [brotherId], references: [id], onDelete: Cascade)
+  data      Bytes
+  mimeType  String   @default("image/webp")
+  updatedAt DateTime @updatedAt
 }
 
 // Single-use tokens for email verification and password resets. Same idea as

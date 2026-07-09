@@ -28,6 +28,12 @@ export default async function AccountPage() {
         <hr className="my-8 border-gray-200" />
 
         <div className="space-y-3">
+          <Link
+            href="/directory"
+            className="block rounded-xl border border-gray-200 px-5 py-4 font-semibold text-black transition hover:border-red-600 hover:text-red-600"
+          >
+            Browse the brother directory &amp; lineages &rarr;
+          </Link>
           {canViewApplications && (
             <Link
               href="/applications"
