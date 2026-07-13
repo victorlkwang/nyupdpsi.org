@@ -7,7 +7,9 @@ on:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Superseded PR runs are cancelled; pushes to main run to completion so an
+  # in-flight production deploy is never killed mid-release.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   build:
@@ -41,3 +43,24 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  # Continuous deployment: pushes to main that pass every check above trigger a
+  # DigitalOcean App Platform deployment (which applies pending Prisma
+  # migrations on boot via the `start` script). Requires two repo settings:
+  #   - secret DIGITALOCEAN_ACCESS_TOKEN: a DO API token with app deploy scope
+  #   - variable DIGITALOCEAN_APP_NAME: the App Platform app's name
+  # Turn OFF "Autodeploy" on the DO app so this job is the only deploy path —
+  # otherwise DO deploys immediately on push, bypassing CI.
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - name: Deploy to DigitalOcean App Platform
+        uses: digitalocean/app_action/deploy@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          app_name: ${{ vars.DIGITALOCEAN_APP_NAME }}

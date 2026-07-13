@@ -124,9 +124,19 @@ ephemeral. A new upload replaces the previous photo.
 ## Deployment (DigitalOcean)
 
 The app runs as a standard Node service against DigitalOcean Managed Postgres.
+Releases go through **GitHub Actions**: every push to `main` runs the full CI
+suite, and only a green build triggers the App Platform deployment (see
+[Testing & CI](#testing--ci)). Migrations apply on start automatically.
+
+One-time setup:
 
 1. Set the environment variables below in the app settings.
-2. Deploy — migrations apply on start automatically.
+2. Wire up CI/CD in the GitHub repo settings:
+   - Add the secret `DIGITALOCEAN_ACCESS_TOKEN` (a DigitalOcean API token with
+     app deploy scope) and the variable `DIGITALOCEAN_APP_NAME` (the app's name
+     in App Platform).
+   - Turn **off** "Autodeploy" on the DigitalOcean app, so the Actions workflow
+     is the only deploy path and broken commits can't ship around CI.
 3. Run the roster seed **once**: `npm run db:seed` (in the app console, or from
    your machine with the production `DATABASE_URL`).
 
@@ -180,7 +190,11 @@ template substitution, and event mappings:
 npm run test
 ```
 
-GitHub Actions runs **lint → typecheck → test → build** on every pull request.
+GitHub Actions (`.github/workflows/ci.yml`) runs **lint → typecheck → test →
+build** on every pull request and push to `main`. On `main`, a green build then
+triggers the **DigitalOcean App Platform deployment** (`digitalocean/app_action`),
+and the app applies pending **Prisma migrations** on boot — so a merge to `main`
+is the entire release process, and nothing deploys unless CI passes.
 
 ## Project layout
 
