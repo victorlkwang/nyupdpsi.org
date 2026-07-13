@@ -150,6 +150,38 @@ TLS to Managed Postgres is handled in `lib/prisma.ts`; provide
 
 ---
 
+## Security
+
+Authentication and data handling follow standard practices:
+
+- **Passwords** are hashed with **bcrypt** (cost 12); plaintext is never stored.
+- **Sessions** use a 256-bit random token. Only its **SHA-256 hash** is stored in
+  the database — the raw token lives solely in the user's cookie — so a database
+  dump can't be used to impersonate anyone. Session cookies are `httpOnly`,
+  `secure` in production, and `sameSite=lax`, with server-side expiry.
+- **Email-verification and password-reset tokens** are single-use, stored only as
+  hashes, and time-limited (resets expire after 1 hour).
+- **No account enumeration**: login and password-reset return the same response
+  whether or not the email exists.
+- **Authorization** is enforced server-side on every protected route and API
+  handler via role checks (`RANDO` / `BRO` / `ADMIN`) — not just hidden UI.
+- **Input validation** with Zod on every endpoint; **Prisma** parameterizes all
+  queries (no string-built SQL). React escapes rendered output, and email bodies
+  are HTML-escaped.
+- **Secrets** stay in environment variables (never committed); public forms carry
+  a honeypot; database connections use TLS with optional CA verification.
+
+## Testing & CI
+
+Unit tests (Vitest) cover the pure logic — email/phone normalization, message
+template substitution, and event mappings:
+
+```bash
+npm run test
+```
+
+GitHub Actions runs **lint → typecheck → test → build** on every pull request.
+
 ## Project layout
 
 ```

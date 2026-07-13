@@ -1,6 +1,9 @@
 import type { MessageKind, RushApplication } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { sendBasicEmail } from "@/lib/email";
+import { fillTemplate } from "@/lib/template";
+
+export { fillTemplate };
 
 export type TemplateContent = {
   emailSubject: string;
@@ -27,12 +30,6 @@ export async function getTemplate(kind: MessageKind): Promise<TemplateContent> {
   return row ?? DEFAULT_TEMPLATES[kind];
 }
 
-/** Substitute {{name}} and {{firstName}} into a template string. */
-export function fillTemplate(text: string, app: Pick<RushApplication, "fullName">): string {
-  const firstName = app.fullName.trim().split(/\s+/)[0] || app.fullName;
-  return text.replace(/\{\{\s*name\s*\}\}/gi, app.fullName).replace(/\{\{\s*firstName\s*\}\}/gi, firstName);
-}
-
 export type SendOutcome = { email: boolean };
 
 /**
@@ -46,8 +43,8 @@ export async function sendRushMessage(
   app: Pick<RushApplication, "fullName" | "email" | "nyuEmail">
 ): Promise<SendOutcome> {
   const tpl = await getTemplate(kind);
-  const subject = fillTemplate(tpl.emailSubject, app);
-  const body = fillTemplate(tpl.emailBody, app);
+  const subject = fillTemplate(tpl.emailSubject, app.fullName);
+  const body = fillTemplate(tpl.emailBody, app.fullName);
 
   const recipients = [...new Set([app.email, app.nyuEmail].filter((e): e is string => !!e))];
   let sent = false;
