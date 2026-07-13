@@ -79,14 +79,7 @@ export default function AttendanceForm({ eventLabel }: { eventLabel: string }) {
             <label htmlFor="nyuEmail" className={labelClass}>
               NYU Email *
             </label>
-            <input
-              id="nyuEmail"
-              name="nyuEmail"
-              type="text"
-              required
-              placeholder="netid@nyu.edu"
-              className={inputClass}
-            />
+            <input id="nyuEmail" name="nyuEmail" type="text" required className={inputClass} />
           </div>
 
           <div>
@@ -100,13 +93,7 @@ export default function AttendanceForm({ eventLabel }: { eventLabel: string }) {
             <label htmlFor="instagramHandle" className={labelClass}>
               Instagram Handle (optional)
             </label>
-            <input
-              id="instagramHandle"
-              name="instagramHandle"
-              type="text"
-              placeholder="@yourhandle"
-              className={inputClass}
-            />
+            <input id="instagramHandle" name="instagramHandle" type="text" className={inputClass} />
           </div>
 
           {status === "error" && (
