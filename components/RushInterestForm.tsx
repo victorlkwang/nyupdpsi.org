@@ -166,14 +166,7 @@ export default function RushInterestForm() {
             <label htmlFor="nyuEmail" className={labelClass}>
               NYU Email *
             </label>
-            <input
-              id="nyuEmail"
-              name="nyuEmail"
-              type="text"
-              required
-              placeholder="netid or netid@nyu.edu"
-              className={inputClass}
-            />
+            <input id="nyuEmail" name="nyuEmail" type="text" required className={inputClass} />
           </div>
 
           <div>
@@ -219,13 +212,7 @@ export default function RushInterestForm() {
             <label htmlFor="instagramHandle" className={labelClass}>
               Instagram Handle (If Applicable)
             </label>
-            <input
-              id="instagramHandle"
-              name="instagramHandle"
-              type="text"
-              placeholder="@yourhandle"
-              className={inputClass}
-            />
+            <input id="instagramHandle" name="instagramHandle" type="text" className={inputClass} />
           </div>
 
           {status === "error" && <p className="text-sm font-semibold text-red-700">{errorMessage}</p>}
