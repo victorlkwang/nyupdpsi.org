@@ -111,9 +111,7 @@ model User {
   role            Role     @default(RANDO)
   // Null until the user clicks the verification link in their email.
   emailVerifiedAt DateTime?
-  // Moderation: admins can flag junk signups as spam and soft-hide (archive)
-  // them from the default members list before deleting.
-  isSpam          Boolean   @default(false)
+  // Moderation: admins can archive (soft-hide) an account before deleting it.
   archivedAt      DateTime?
   createdAt       DateTime @default(now())
 
