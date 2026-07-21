@@ -11,6 +11,8 @@ export type AdminUserRow = {
   email: string;
   role: Role;
   verified: boolean;
+  isSpam: boolean;
+  archived: boolean;
 };
 
 const ROLES: Role[] = ["ADMIN", "BRO", "RANDO"];
@@ -26,47 +28,85 @@ export default function AdminUserTable({
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [error, setError] = useState("");
 
-  async function changeRole(userId: string, role: Role) {
+  async function run(userId: string, fn: () => Promise<Response>, fail: string) {
     setPendingId(userId);
     setError("");
     try {
-      const response = await fetch("/api/admin/users", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, role }),
-      });
+      const response = await fn();
       const body = await response.json().catch(() => ({}));
       if (!response.ok) {
-        setError(body.error ?? "Couldn't update that user.");
+        setError(body.error ?? fail);
         return;
       }
       router.refresh();
     } catch {
-      setError("Couldn't update that user.");
+      setError(fail);
     } finally {
       setPendingId(null);
     }
   }
 
+  const changeRole = (userId: string, role: Role) =>
+    run(
+      userId,
+      () =>
+        fetch("/api/admin/users", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, role }),
+        }),
+      "Couldn't update that user."
+    );
+
+  const moderate = (userId: string, data: { isSpam?: boolean; archived?: boolean }) =>
+    run(
+      userId,
+      () =>
+        fetch(`/api/admin/users/${userId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }),
+      "Couldn't update that account."
+    );
+
+  const remove = (userId: string, name: string) => {
+    if (!confirm(`Permanently delete ${name}'s account? This can't be undone.`)) return;
+    return run(
+      userId,
+      () => fetch(`/api/admin/users/${userId}`, { method: "DELETE" }),
+      "Couldn't delete that account."
+    );
+  };
+
   return (
     <div>
       {error && <p className="mb-4 text-sm font-semibold text-red-700">{error}</p>}
       <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow">
-        <table className="w-full min-w-[560px] text-left text-sm">
+        <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="border-b border-gray-200 bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Verified</th>
               <th className="px-4 py-3">Role</th>
+              <th className="px-4 py-3 text-right">Moderation</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {users.map((user) => {
               const isSelf = user.id === currentUserId;
+              const busy = pendingId === user.id;
               return (
-                <tr key={user.id}>
-                  <td className="px-4 py-3 font-medium text-black">{user.name}</td>
+                <tr key={user.id} className={user.isSpam ? "bg-red-50/60" : undefined}>
+                  <td className="px-4 py-3 font-medium text-black">
+                    {user.name}
+                    {user.isSpam && (
+                      <span className="ml-2 rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-bold text-red-700">
+                        SPAM
+                      </span>
+                    )}
+                  </td>
                   <td className="px-4 py-3 text-gray-600">{user.email}</td>
                   <td className="px-4 py-3">
                     {user.verified ? (
@@ -78,7 +118,7 @@ export default function AdminUserTable({
                   <td className="px-4 py-3">
                     <select
                       value={user.role}
-                      disabled={isSelf || pendingId === user.id}
+                      disabled={isSelf || busy}
                       onChange={(event) => changeRole(user.id, event.target.value as Role)}
                       className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-black focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
                       title={isSelf ? "You can't change your own role" : undefined}
@@ -90,9 +130,45 @@ export default function AdminUserTable({
                       ))}
                     </select>
                   </td>
+                  <td className="px-4 py-3">
+                    {isSelf ? (
+                      <span className="block text-right text-xs text-gray-400">You</span>
+                    ) : (
+                      <div className="flex justify-end gap-3 text-xs font-semibold">
+                        <button
+                          onClick={() => moderate(user.id, { isSpam: !user.isSpam })}
+                          disabled={busy}
+                          className="text-gray-600 hover:text-red-600 disabled:opacity-50"
+                        >
+                          {user.isSpam ? "Unmark spam" : "Mark spam"}
+                        </button>
+                        <button
+                          onClick={() => moderate(user.id, { archived: !user.archived })}
+                          disabled={busy}
+                          className="text-gray-600 hover:text-red-600 disabled:opacity-50"
+                        >
+                          {user.archived ? "Unarchive" : "Archive"}
+                        </button>
+                        <button
+                          onClick={() => remove(user.id, user.name)}
+                          disabled={busy}
+                          className="text-gray-400 hover:text-red-600 disabled:opacity-50"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </td>
                 </tr>
               );
             })}
+            {users.length === 0 && (
+              <tr>
+                <td colSpan={5} className="px-4 py-6 text-center text-sm text-gray-400">
+                  Nothing here.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
