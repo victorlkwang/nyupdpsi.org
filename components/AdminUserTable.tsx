@@ -11,7 +11,6 @@ export type AdminUserRow = {
   email: string;
   role: Role;
   verified: boolean;
-  isSpam: boolean;
   archived: boolean;
 };
 
@@ -58,14 +57,14 @@ export default function AdminUserTable({
       "Couldn't update that user."
     );
 
-  const moderate = (userId: string, data: { isSpam?: boolean; archived?: boolean }) =>
+  const setArchived = (userId: string, archived: boolean) =>
     run(
       userId,
       () =>
         fetch(`/api/admin/users/${userId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
+          body: JSON.stringify({ archived }),
         }),
       "Couldn't update that account."
     );
@@ -98,15 +97,8 @@ export default function AdminUserTable({
               const isSelf = user.id === currentUserId;
               const busy = pendingId === user.id;
               return (
-                <tr key={user.id} className={user.isSpam ? "bg-red-50/60" : undefined}>
-                  <td className="px-4 py-3 font-medium text-black">
-                    {user.name}
-                    {user.isSpam && (
-                      <span className="ml-2 rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-bold text-red-700">
-                        SPAM
-                      </span>
-                    )}
-                  </td>
+                <tr key={user.id}>
+                  <td className="px-4 py-3 font-medium text-black">{user.name}</td>
                   <td className="px-4 py-3 text-gray-600">{user.email}</td>
                   <td className="px-4 py-3">
                     {user.verified ? (
@@ -136,14 +128,7 @@ export default function AdminUserTable({
                     ) : (
                       <div className="flex justify-end gap-3 text-xs font-semibold">
                         <button
-                          onClick={() => moderate(user.id, { isSpam: !user.isSpam })}
-                          disabled={busy}
-                          className="text-gray-600 hover:text-red-600 disabled:opacity-50"
-                        >
-                          {user.isSpam ? "Unmark spam" : "Mark spam"}
-                        </button>
-                        <button
-                          onClick={() => moderate(user.id, { archived: !user.archived })}
+                          onClick={() => setArchived(user.id, !user.archived)}
                           disabled={busy}
                           className="text-gray-600 hover:text-red-600 disabled:opacity-50"
                         >
