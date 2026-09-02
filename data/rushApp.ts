@@ -16,11 +16,11 @@ export const rushAboutUs =
 // Point-of-contact brothers shown on the form. Update this list each
 // semester as points of contact change.
 export const rushContacts = [
-  { name: "Joshua Lee", phone: "(408) 966-2782" },
-  { name: "Cody Le", phone: "(214) 282-6906" },
   { name: "Caden Cewe", phone: "(954) 909-2741" },
   { name: "William Song", phone: "(323) 247-1004" },
-  { name: "Kason Lin", phone: "(678) 749-9500" },
+  { name: "Buck Vongnaraj", phone: "(301) 676-9028" },
+  { name: "Ryan Cao", phone: "(347) 399-3982" },
+  { name: "Matthew King", phone: "(949) 406-9835" },
 ];
 
 export const rushClosing = "Thank you again for your interest and feel free to check out our other pages!";
